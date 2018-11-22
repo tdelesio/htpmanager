@@ -1,0 +1,226 @@
+version: '2'
+services:
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
+    volumes:
+      - /mnt/storage/appdata/heimdall/config:/config
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    container_name: sabnzbd
+    volumes:
+      - /mnt/storage/media/comics:/comics
+      - /mnt/storage/appdata/sabnzbd/config:/config
+      - /mnt/storage/media/downloads:/downloads
+      - /mnt/storage/media/incomplete-downloads:/incomplete-downloads
+    ports:
+      - 8080:8080
+      - 9090:9090
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Chicago
+  nzbhydra:
+    image: linuxserver/hydra
+    container_name: hydra
+    volumes:
+      - /mnt/storage/appdata/hydra/config:/config
+      - /mnt/storage/media/hydra-downloads:/downloads
+    ports:
+      - 5075:5075
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    volumes:
+      - /mnt/storage/appdata/plex:/config
+      - /mnt/storage/media/tv:/data/tvshows
+      - /mnt/storage/media/homemovies:/data/homemovies
+      - /mnt/storage/media/photos:/data/photos
+      - /mnt/storage/media/movies:/data/movies
+      - /mnt/storage/media/TEMP_POSTPROCESSING:/transcode
+    network_mode: host
+    restart: always
+    environment:
+      - VERSION=public
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Chicago
+  tautulli:
+    image: linuxserver/tautulli
+    container_name: tautulli
+    depends_on:
+      - plex
+    volumes:
+      - /mnt/storage/appdata/plexpy:/config
+      - /mnt/storage/appdata/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
+    ports:
+      - 8181:8181
+    links:
+      - plex
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Chicago
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    depends_on:
+      - sabnzbd
+    volumes:
+      - /mnt/storage/appdata/sonarr:/config
+      - /mnt/storage/media/tv:/tv
+      - /mnt/storage/media/downloads:/downloads
+      - /mnt/storage/media/tv_import:/tv_import
+    ports:
+      - 8989:8989
+    links:
+      - sabnzbd
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+#  radarr:
+#    image: linuxserver/radarr
+#    container_name: radarr
+#    volumes:
+#      - /mnt/storage/appdata/radarr:/config
+#      - /mnt/storage/media/movies:/movies
+#      - /mnt/storage/media/downloads:/downloads
+#    ports:
+#      - 7878:7878
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#    restart:
+#      always
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    ports:
+      - 443:443
+    volumes:
+      - /mnt/storage/appdata/letsencrypt:/config
+    restart:
+      always
+    environment:
+      - VALIDATION=dns
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - EMAIL=bfrost@brainboy.com
+      - URL=brainboy.com
+      - SUBDOMAINS=wildcard
+      - ONLY_SUBDOMAINS=false
+      - DNSPLUGIN=tls-sni
+      - DHLEVEL=4096
+      - TZ=America/Chicago
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    ports:
+      - 9000:9000
+    volumes:
+      - /mnt/storage/appdata/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart:
+      always
+  lazylibrarian:
+    image: linuxserver/lazylibrarian
+    container_name: lazylibrarian
+    ports:
+      - 5299:5299
+    volumes:
+      - /mnt/storage/appdata/lazylibrarian:/config
+      - /mnt/storage/media/downloads/:/downloads
+      - /mnt/storage/media/books:/books
+    restart:
+      always
+    environment:
+      - TZ=America/Chicago
+      - PUID=${PUID}
+      - PGID=${PGID}
+  watchtower:
+    container_name: watchtower
+    restart: always
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#    command: --schedule "0 0 4 * * *" --cleanup
+  ubooquity:
+    image: linuxserver/ubooquity
+    container_name: ubooquity
+    ports:
+      - 2202:2202
+      - 2203:2203
+    volumes:
+      - /mnt/storage/appdata/ubooquity:/config
+      - /mnt/storage/media/downloads/:/files
+      - /mnt/storage/media/books:/books
+      - /mnt/storage/media/comics:/comics
+    restart:
+      always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+  autosub:
+    image: ltka/autosub
+    container_name: autosub
+    volumes:
+      - /mnt/storage/appdata/autosub:/config
+      - /mnt/storage/media/movies:/tv
+    environment:
+      - TZ=America/Chicago
+      - PUID=${PUID}
+      - PGID=${PGID}
+    restart: always
+    ports:
+      - 9960:9960
+    depends_on:
+      - plex
+    links:
+      - plex
+  netdata:
+    image: netdata/netdata
+    ports:
+      - 19999:19999
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    hostname: example.com # set to fqdn of host
+  htpcmanager:
+    container_name: htpcmanager
+    image: linuxserver/htpcmanager
+    ports:
+      - 8085:8085
+    environment:
+      - TZ=America/Chicago
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - /mnt/storage/appdata/htpmanager:/config
+
+
+
+
+
+#  docker pull linuxserver/qbittorrent
+#  https://hub.docker.com/r/linuxserver/qbittorrent/
+#  docker pull pihole/pihole
+#  https://hub.docker.com/r/pihole/pihole/
+#  https://github.com/pannal/Sub-Zero.bundle/
