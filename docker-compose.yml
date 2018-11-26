@@ -26,7 +26,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=America/Chicago
+      - TZ=America/New_York
   nzbhydra:
     image: linuxserver/hydra
     container_name: hydra
@@ -55,7 +55,7 @@ services:
       - VERSION=public
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=America/Chicago
+      - TZ=America/New_York
   tautulli:
     image: linuxserver/tautulli
     container_name: tautulli
@@ -72,7 +72,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=America/Chicago
+      - TZ=America/New_York
   sonarr:
     image: linuxserver/sonarr
     container_name: sonarr
@@ -124,7 +124,7 @@ services:
       - ONLY_SUBDOMAINS=false
       - DNSPLUGIN=tls-sni
       - DHLEVEL=4096
-      - TZ=America/Chicago
+      - TZ=America/New_York
   portainer:
     image: portainer/portainer
     container_name: portainer
@@ -147,7 +147,7 @@ services:
     restart:
       always
     environment:
-      - TZ=America/Chicago
+      - TZ=America/New_York
       - PUID=${PUID}
       - PGID=${PGID}
   watchtower:
@@ -180,7 +180,7 @@ services:
       - /mnt/storage/appdata/autosub:/config
       - /mnt/storage/media/movies:/tv
     environment:
-      - TZ=America/Chicago
+      - TZ=America/New_York
       - PUID=${PUID}
       - PGID=${PGID}
     restart: always
@@ -209,7 +209,7 @@ services:
     ports:
       - 8085:8085
     environment:
-      - TZ=America/Chicago
+      - TZ=America/New_York
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
