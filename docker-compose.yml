@@ -15,10 +15,11 @@ services:
     image: linuxserver/sabnzbd
     container_name: sabnzbd
     volumes:
-      - /mnt/storage/media/comics:/comics
+    #why does sabnzbd need access to comics?
+      - comics:/comics
       - /mnt/storage/appdata/sabnzbd/config:/config
-      - /mnt/storage/media/downloads:/downloads
-      - /mnt/storage/media/incomplete-downloads:/incomplete-downloads
+      - complete_downloads:/downloads
+      - incomplete_downloads:/incomplete-downloads
     ports:
       - 8080:8080
       - 9090:9090
@@ -32,7 +33,7 @@ services:
     container_name: hydra
     volumes:
       - /mnt/storage/appdata/hydra/config:/config
-      - /mnt/storage/media/hydra-downloads:/downloads
+      - complete_downloads:/downloads
     ports:
       - 5075:5075
     restart: always
@@ -44,11 +45,14 @@ services:
     container_name: plex
     volumes:
       - /mnt/storage/appdata/plex:/config
-      - /mnt/storage/media/tv:/data/tvshows
-      - /mnt/storage/media/homemovies:/data/homemovies
-      - /mnt/storage/media/photos:/data/photos
-      - /mnt/storage/media/movies:/data/movies
-      - /mnt/storage/media/TEMP_POSTPROCESSING:/transcode
+      - tv:/data/tvshows
+      - home_movies:/data/homemovies
+      - photos:/data/photos
+      - movies:/data/movies
+      - christmas_movies:/data/christmas
+      - kids_movies:/data/kids
+      - music:/data/music
+      - temp_storage:/transcode
     network_mode: host
     restart: always
     environment:
@@ -80,9 +84,9 @@ services:
       - sabnzbd
     volumes:
       - /mnt/storage/appdata/sonarr:/config
-      - /mnt/storage/media/tv:/tv
-      - /mnt/storage/media/downloads:/downloads
-      - /mnt/storage/media/tv_import:/tv_import
+      - tv:/tv
+      - complete_downloads:/downloads
+#       - /mnt/storage/media/tv_import:/tv_import
     ports:
       - 8989:8989
     links:
@@ -142,8 +146,8 @@ services:
       - 5299:5299
     volumes:
       - /mnt/storage/appdata/lazylibrarian:/config
-      - /mnt/storage/media/downloads/:/downloads
-      - /mnt/storage/media/books:/books
+      - complete_downloads:/downloads
+      - books:/books
     restart:
       always
     environment:
@@ -165,9 +169,9 @@ services:
       - 2203:2203
     volumes:
       - /mnt/storage/appdata/ubooquity:/config
-      - /mnt/storage/media/downloads/:/files
-      - /mnt/storage/media/books:/books
-      - /mnt/storage/media/comics:/comics
+      - complete_downloads:/files
+      - books:/books
+      - comics:/comics
     restart:
       always
     environment:
@@ -178,7 +182,7 @@ services:
     container_name: autosub
     volumes:
       - /mnt/storage/appdata/autosub:/config
-      - /mnt/storage/media/movies:/tv
+      - movies:/tv
     environment:
       - TZ=America/New_York
       - PUID=${PUID}
@@ -215,10 +219,81 @@ services:
     volumes:
       - /mnt/storage/appdata/htpmanager:/config
 
-
-
-
-
+volumes:
+  comics:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/comics
+      o: bind
+  tv:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/tv
+      o: bind
+  home_movies:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/homemovies
+      o: bind
+  photos:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/photos
+      o: bind
+  movies:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/movies
+      o: bind
+  kids_movies:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/kids
+      o: bind
+  christmas_movies:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/christmas
+      o: bind
+  music:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/music
+      o: bind
+  books:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/books
+      o: bind
+  complete_downloads:
+    driver_opts:
+      type: none
+      device: /mnt/storage/downloads/complete
+      o: bind
+  incomplete_downloads:
+    driver_opts:
+      type: none
+      device: /mnt/storage/downloads/incomplete
+      o: bind
+  temp_storage:
+    driver_opts:
+      type: none
+      device: /mnt/storage/tmp
+      o: bind
+      
+#/mnt/storage/appdata/heimdall/config:/config
+#/mnt/storage/appdata/hydra/config:/config
+#/mnt/storage/appdata/sabnzbd/config:/config
+#/mnt/storage/appdata/plex:/config
+#/mnt/storage/appdata/plexpy:/config
+#/mnt/storage/appdata/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
+#/mnt/storage/appdata/sonarr:/config
+#/mnt/storage/appdata/letsencrypt:/config
+#/mnt/storage/appdata/portainer:/data
+#/mnt/storage/appdata/lazylibrarian:/config
+#/mnt/storage/appdata/ubooquity:/config
+#/mnt/storage/appdata/autosub:/config
+  
 #  docker pull linuxserver/qbittorrent
 #  https://hub.docker.com/r/linuxserver/qbittorrent/
 #  docker pull pihole/pihole
