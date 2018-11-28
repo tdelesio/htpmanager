@@ -207,17 +207,17 @@ services:
       - /sys:/host/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 #    hostname: example.com # set to fqdn of host
-  htpcmanager:
-    container_name: htpcmanager
-    image: linuxserver/htpcmanager
-    ports:
-      - 8085:8085
-    environment:
-      - TZ=America/New_York
-      - PUID=${PUID}
-      - PGID=${PGID}
-    volumes:
-      - /mnt/storage/appdata/htpmanager:/config
+#  htpcmanager:
+#    container_name: htpcmanager
+#    image: linuxserver/htpcmanager
+#    ports:
+#      - 8085:8085
+#    environment:
+#      - TZ=America/New_York
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#    volumes:
+#      - /mnt/storage/appdata/htpmanager:/config
 
 volumes:
   comics:
