@@ -85,7 +85,7 @@ services:
     volumes:
       - /mnt/storage/appdata/sonarr:/config
       - tv:/tv
-      - complete_downloads:/downloads
+      - complete_downloads:/config/Downloads
 #       - /mnt/storage/media/tv_import:/tv_import
     ports:
       - 8989:8989
