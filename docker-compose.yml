@@ -183,6 +183,20 @@ services:
     environment:
     - PUID=${PUID}
     - PGID=${PGID}
+  #mylar - comic download
+  mylar:
+    image: linuxserver/mylar
+    container_name: mylar
+    ports:
+      - 8090:8090
+    volumes:
+      - /mnt/storage/appdata/mylay:/config
+      - complete_downloads:/downloads
+      - comics:/comics
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=America/New_York
 
 
 volumes:
