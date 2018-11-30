@@ -1,0 +1,76 @@
+version: '2'
+services:
+  htpcmanager:
+    container_name: htpcmanager
+    image: linuxserver/htpcmanager
+    ports:
+      - 8085:8085
+    environment:
+      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - /mnt/storage/appdata/htpmanager:/config
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    volumes:
+      - /mnt/storage/appdata/radarr:/config
+      - /mnt/storage/media/movies:/movies
+      - /mnt/storage/media/downloads:/downloads
+    ports:
+      - 7878:7878
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    restart:
+      always
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    ports:
+      - 443:443
+    volumes:
+      - /mnt/storage/appdata/letsencrypt:/config
+    restart:
+      always
+    environment:
+      - VALIDATION=dns
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - EMAIL=bfrost@brainboy.com
+      - URL=brainboy.com
+      - SUBDOMAINS=wildcard
+      - ONLY_SUBDOMAINS=false
+      - DNSPLUGIN=tls-sni
+      - DHLEVEL=4096
+      - TZ=America/New_York
+
+
+#TO-DO
+#  docker pull linuxserver/qbittorrent
+#  docker pull pihole/pihole
+
+
+#docker pull linuxserver/headphones
+  docker create \
+  --name="headphones" \
+  -v /path/to/headphones/data:/config \
+  -v /path/to/downloads:/downloads \
+  -v /path/to/music:/music \
+  -e PGID=<gid> -e PUID=<uid> \
+  -e TZ=<timezone> \
+  -p 8181:8181 \
+  linuxserver/headphones
+
+#  docker pull linuxserver/mylar
+#mylar
+  docker create \
+  --name=mylar \
+  -v <path to data>:/config \
+  -v <downloads-folder>:/downloads \
+  -v <comics-folder>:/comics \
+  -e PGID=<gid> -e PUID=<uid> \
+  -e TZ=<timezone> \
+  -p 8090:8090 \
+  linuxserver/mylar
