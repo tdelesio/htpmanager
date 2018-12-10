@@ -45,6 +45,11 @@ services:
       - DNSPLUGIN=tls-sni
       - DHLEVEL=4096
       - TZ=America/New_York
+  syncloung_server:
+    image: starbix/synclounge:nginx
+    container_name: plextogether_nginx
+    ports:
+    - 8087:80
 
 
 #TO-DO
