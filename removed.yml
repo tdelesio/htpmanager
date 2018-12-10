@@ -51,16 +51,3 @@ services:
 #  docker pull linuxserver/qbittorrent
 #  docker pull pihole/pihole
 
-
-#docker pull linuxserver/headphones
-  docker create \
-  --name="headphones" \
-  -v /path/to/headphones/data:/config \
-  -v /path/to/downloads:/downloads \
-  -v /path/to/music:/music \
-  -e PGID=<gid> -e PUID=<uid> \
-  -e TZ=<timezone> \
-  -p 8181:8181 \
-  linuxserver/headphones
-
-

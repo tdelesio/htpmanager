@@ -197,7 +197,26 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=America/New_York
-
+  synclounge:
+    image: starbix/synclounge
+    container_name: synclounge
+    ports:
+    - 8088:8088
+    - 8089:8089
+  headphones:
+    image: linuxserver/headphones
+    container_name: headphones
+    ports:
+    - 8181:8181
+    volumes:
+    - /mnt/storage/appdata/headphones:/config
+    - complete_downloads:/downloads
+    - music:/music
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=America/New_York
+      
 
 volumes:
   comics:
