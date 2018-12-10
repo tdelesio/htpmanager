@@ -207,7 +207,7 @@ services:
     image: linuxserver/headphones
     container_name: headphones
     ports:
-    - 8181:8181
+    - 8182:8181
     volumes:
     - /mnt/storage/appdata/headphones:/config
     - complete_downloads:/downloads
