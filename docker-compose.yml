@@ -203,6 +203,11 @@ services:
     ports:
     - 8088:8088
     - 8089:8089
+  syncloung_server:
+    image: starbix/synclounge:nginx
+    container_name: plextogether_nginx
+    ports:
+    - 8087:80
   headphones:
     image: linuxserver/headphones
     container_name: headphones
@@ -216,7 +221,7 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=America/New_York
-      
+
 
 volumes:
   comics:
