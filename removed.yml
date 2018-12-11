@@ -50,7 +50,30 @@ services:
     container_name: plextogether_nginx
     ports:
     - 8087:80
-
+  synclounge:
+    image: starbix/synclounge
+    container_name: synclounge
+    ports:
+    - 8088:8088
+    - 8089:8089
+  #autosub - subtitle downloader
+  autosub:
+    image: ltka/autosub
+    container_name: autosub
+    volumes:
+    - /mnt/storage/appdata/autosub:/config
+    - movies:/tv
+    environment:
+    - TZ=America/New_York
+    - PUID=${PUID}
+    - PGID=${PGID}
+    restart: always
+    ports:
+    - 9960:9960
+    depends_on:
+    - plex
+    links:
+    - plex
 
 #TO-DO
 #  docker pull linuxserver/qbittorrent

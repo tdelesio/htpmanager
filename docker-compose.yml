@@ -136,24 +136,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 #    command: --schedule "0 0 4 * * *" --cleanup
-  #autosub - subtitle downloader
-  autosub:
-    image: ltka/autosub
-    container_name: autosub
-    volumes:
-      - /mnt/storage/appdata/autosub:/config
-      - movies:/tv
-    environment:
-      - TZ=America/New_York
-      - PUID=${PUID}
-      - PGID=${PGID}
-    restart: always
-    ports:
-      - 9960:9960
-    depends_on:
-      - plex
-    links:
-      - plex
   #netdata - metrics for apps
   netdata:
     image: netdata/netdata
@@ -197,12 +179,6 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=America/New_York
-  synclounge:
-    image: starbix/synclounge
-    container_name: synclounge
-    ports:
-    - 8088:8088
-    - 8089:8089
   headphones:
     image: linuxserver/headphones
     container_name: headphones
