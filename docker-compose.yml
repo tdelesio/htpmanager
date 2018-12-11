@@ -192,6 +192,21 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=America/New_York
+  couchpotato:
+    image: linuxserver/couchpotato
+    container_name: couchpotato
+    ports:
+    - 5050:5050
+    volumes:
+    - /mnt/storage/appdata/couchpotato:/config
+    - complete_downloads:/downloads
+    - movies:/music
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=America/New_York
+
+
 
 
 volumes:

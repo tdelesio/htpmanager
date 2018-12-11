@@ -79,3 +79,15 @@ services:
 #  docker pull linuxserver/qbittorrent
 #  docker pull pihole/pihole
 
+  docker run --restart=always -d -p 80:80 \
+  --hostname=spotweb \
+  --name=spotweb \
+  -v <hostdir_where_config_will_persistently_be_stored>:/config \
+  -e TZ='Europe/Amsterdam' \
+  -e SPOTWEB_DB_TYPE=pdo_mysql \
+  -e SPOTWEB_DB_HOST=<database_server_hostname> \
+  -e SPOTWEB_DB_NAME=spotweb \
+  -e SPOTWEB_DB_USER=spotweb \
+  -e SPOTWEB_DB_PASS=spotweb \
+  jgeusebroek/spotweb
+
