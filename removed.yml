@@ -45,9 +45,49 @@ services:
       - DNSPLUGIN=tls-sni
       - DHLEVEL=4096
       - TZ=America/New_York
-
+  syncloung_server:
+    image: starbix/synclounge:nginx
+    container_name: plextogether_nginx
+    ports:
+    - 8087:80
+  synclounge:
+    image: starbix/synclounge
+    container_name: synclounge
+    ports:
+    - 8088:8088
+    - 8089:8089
+  #autosub - subtitle downloader
+  autosub:
+    image: ltka/autosub
+    container_name: autosub
+    volumes:
+    - /mnt/storage/appdata/autosub:/config
+    - movies:/tv
+    environment:
+    - TZ=America/New_York
+    - PUID=${PUID}
+    - PGID=${PGID}
+    restart: always
+    ports:
+    - 9960:9960
+    depends_on:
+    - plex
+    links:
+    - plex
 
 #TO-DO
 #  docker pull linuxserver/qbittorrent
 #  docker pull pihole/pihole
+
+  docker run --restart=always -d -p 80:80 \
+  --hostname=spotweb \
+  --name=spotweb \
+  -v <hostdir_where_config_will_persistently_be_stored>:/config \
+  -e TZ='Europe/Amsterdam' \
+  -e SPOTWEB_DB_TYPE=pdo_mysql \
+  -e SPOTWEB_DB_HOST=<database_server_hostname> \
+  -e SPOTWEB_DB_NAME=spotweb \
+  -e SPOTWEB_DB_USER=spotweb \
+  -e SPOTWEB_DB_PASS=spotweb \
+  jgeusebroek/spotweb
 
