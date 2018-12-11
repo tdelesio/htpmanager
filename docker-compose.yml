@@ -200,7 +200,7 @@ services:
     volumes:
     - /mnt/storage/appdata/couchpotato:/config
     - complete_downloads:/downloads
-    - movies:/music
+    - movies:/movies
     environment:
     - PUID=${PUID}
     - PGID=${PGID}
