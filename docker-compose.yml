@@ -255,8 +255,8 @@ services:
     volumes:
     - /mnt/storage/appdata/phlex:/config
     ports:
-    - 5666:5666
-    - 5667:5667
+    - 5666:80
+    - 5667:443
     environment:
     - HTTPPORT=5666
     - HTTPSPORT=5667
