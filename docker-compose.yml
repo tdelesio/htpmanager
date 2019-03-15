@@ -205,9 +205,74 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=America/New_York
-
-
-
+#  diskover:
+#    image: linuxserver/diskover
+#    container_name: diskover
+#    environment:
+#    - PUID=1000
+#    - PGID=1000
+#    - TZ=America/New_York
+#    - REDIS_HOST=redis
+#    - REDIS_PORT=6379
+#    - ES_HOST=elasticsearch
+#    - ES_PORT=9200
+#    - ES_USER=elastic
+#    - ES_PASS=changeme
+#    - RUN_ON_START=true
+#    - USE_CRON=true
+#    volumes:
+#    - /mnt/storage/appdata/diskover:/config
+#    - /mnt/storage/media:/data
+#    ports:
+#    - 80:80
+#    - 9181:9181
+#    - 9999:9999
+#    mem_limit: 4096m
+#    restart: unless-stopped
+#    depends_on:
+#    - elasticsearch
+#    - redis
+#  elasticsearch:
+#    container_name: elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
+#    volumes:
+#    - /mnt/storage/appdata/elasticsearch/data:/usr/share/elasticsearch/data
+#    environment:
+#    - bootstrap.memory_lock=true
+#    - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#  redis:
+#    container_name: redis
+#    image: redis:alpine
+#    volumes:
+#    - /mnt/storage/appdata/redis:/data
+  phlex:
+    container_name: phlex
+    image: digitalhigh/phlex
+    volumes:
+    - /mnt/storage/appdata/phlex:/config
+    ports:
+    - 5666:5666
+    - 5667:5667
+    environment:
+    - HTTPPORT=5666
+    - HTTPSPORT=5667
+    - FASTCGIPORT=9000
+#  home-assistant:
+#    container_name: home-assistant
+#    image: homeassistant/home-assistant
+#    ports:
+#    - 8123:8123
+#    volumes:
+#    - /mnt/storage/appdata/homeassist:/config
+#    - /etc/localtime:/etc/localtime:ro
+#environment:
+#- PUID=${PUID}
+#- PGID=${PGID}
+#- TZ=America/New_York
 
 volumes:
   comics:
@@ -286,3 +351,7 @@ volumes:
 #/mnt/storage/appdata/autosub:/config
   
 
+#  docker run -d -p 8080:8080 -p 80:80 \
+#  -v $PWD/traefik.toml:/etc/traefik/traefik.toml \
+#  -v /var/run/docker.sock:/var/run/docker.sock \
+#  traefik
