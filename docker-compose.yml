@@ -261,6 +261,18 @@ services:
     - HTTPPORT=5666
     - HTTPSPORT=5667
     - FASTCGIPORT=9000
+#  home-assistant:
+#    container_name: home-assistant
+#    image: homeassistant/home-assistant
+#    ports:
+#    - 8123:8123
+#    volumes:
+#    - /mnt/storage/appdata/homeassist:/config
+#    - /etc/localtime:/etc/localtime:ro
+#environment:
+#- PUID=${PUID}
+#- PGID=${PGID}
+#- TZ=America/New_York
 
 volumes:
   comics:
