@@ -261,6 +261,28 @@ services:
     - HTTPPORT=5666
     - HTTPSPORT=5667
     - FASTCGIPORT=9000
+  unifi-video2:
+    container_name: unifivideo2
+    image: pducharme/unifi-video-controller
+    network_mode: host
+    volumes:
+    - /mnt/storage/appdata/unfivideo2:/config
+    cap_add:
+    - SYS_ADMIN
+    - DAC_READ_SEARCH
+    security_opt:
+    - apparmor:unconfined
+    ports:
+    - 10001:10001
+    - 1935:1935
+    - 7080:7080
+    - 6666:6666
+    - 7442:7442
+    - 7443:7443
+    - 7444:7444
+    - 7445:7445
+    - 7446:7446
+    - 7447:7447
 #  home-assistant:
 #    container_name: home-assistant
 #    image: homeassistant/home-assistant
