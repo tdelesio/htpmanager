@@ -205,49 +205,7 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=America/New_York
-#  diskover:
-#    image: linuxserver/diskover
-#    container_name: diskover
-#    environment:
-#    - PUID=1000
-#    - PGID=1000
-#    - TZ=America/New_York
-#    - REDIS_HOST=redis
-#    - REDIS_PORT=6379
-#    - ES_HOST=elasticsearch
-#    - ES_PORT=9200
-#    - ES_USER=elastic
-#    - ES_PASS=changeme
-#    - RUN_ON_START=true
-#    - USE_CRON=true
-#    volumes:
-#    - /mnt/storage/appdata/diskover:/config
-#    - /mnt/storage/media:/data
-#    ports:
-#    - 80:80
-#    - 9181:9181
-#    - 9999:9999
-#    mem_limit: 4096m
-#    restart: unless-stopped
-#    depends_on:
-#    - elasticsearch
-#    - redis
-#  elasticsearch:
-#    container_name: elasticsearch
-#    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
-#    volumes:
-#    - /mnt/storage/appdata/elasticsearch/data:/usr/share/elasticsearch/data
-#    environment:
-#    - bootstrap.memory_lock=true
-#    - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#  redis:
-#    container_name: redis
-#    image: redis:alpine
-#    volumes:
+
 #    - /mnt/storage/appdata/redis:/data
   phlex:
     container_name: phlex
@@ -261,18 +219,44 @@ services:
     - HTTPPORT=5666
     - HTTPSPORT=5667
     - FASTCGIPORT=9000
-#  home-assistant:
-#    container_name: home-assistant
-#    image: homeassistant/home-assistant
-#    ports:
-#    - 8123:8123
-#    volumes:
-#    - /mnt/storage/appdata/homeassist:/config
-#    - /etc/localtime:/etc/localtime:ro
-#environment:
-#- PUID=${PUID}
-#- PGID=${PGID}
-#- TZ=America/New_York
+  traefik:
+    hostname: traefik
+    image: traefik:latest
+    container_name: traefik
+    restart: always
+    domainname: ${DOMAINNAME}
+    networks:
+    - default
+    - traefik_proxy
+    ports:
+    - "80:80"
+    - "443:443"
+    - "8081:8080"
+    environment:
+    - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
+    - CF_API_KEY=${CLOUDFLARE_API_KEY}
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=traefik"
+    - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"
+    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /traefik"
+    - "traefik.port=8080"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=example.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=true"
+    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ${USERDIR}/docker/traefik:/etc/traefik
+    - ${USERDIR}/docker/shared:/shared
+
 
 volumes:
   comics:
@@ -335,6 +319,12 @@ volumes:
       type: none
       device: /mnt/storage/tmp
       o: bind
+  shared:
+    driver_opts:
+      type: none
+      device: /mnt/storage/appdata/docker/shared
+      o: bind
+
 
       
 #/mnt/storage/appdata/heimdall/config:/config
