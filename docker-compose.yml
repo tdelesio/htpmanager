@@ -131,6 +131,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - ADVERTISE_IP="http://SERVER-IP:32400/"
+      - HOSTNAME="Docker Plex"
+      - PLEX_CLAIM="claim-1Zg5Z3bz213LqvmFYWab"
     networks:
     - traefik_proxy
     labels:
