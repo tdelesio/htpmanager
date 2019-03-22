@@ -18,6 +18,9 @@ HTTP_PASSWORD=mystrongpassword
 DOMAINNAME=example.com
 CLOUDFLARE_EMAIL=email@example.com
 CLOUDFLARE_API_KEY=XXXXXXXXXXXX
+PLEX_CLAIM=
+
+Get Plex claim from here: https://www.plex.tv/claim/
 
 3.  
 chmod 600 /mnt/storage/appdata/docker/htpmanager/traefik/acme/acme.json
