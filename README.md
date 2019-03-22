@@ -1,10 +1,12 @@
 Traefik setup:
 
+
 1.
 sudo touch /mnt/storage/appdata/docker/shared/.htpasswd
 nano /mnt/storage/appdata/docker/shared/.htpasswd
-Add to the file:
-username:password
+go to http://www.htaccesstools.com/htpasswd-generator/ and generate the password
+Add generated items to the file:
+
 
 
 2.
@@ -29,4 +31,5 @@ c. InsecureSkipVerify = true: I had to add at the beginning to allow some apps (
 d. provider = "cloudflare": Change to your DNS provider for DNS challenge.
 e. exposedbydefault = false: This will force you to use traefik.enable=true label in docker compose to put apps behind traefik.
 
-
+5. 
+update sabnzbd.ini and add host to the white list

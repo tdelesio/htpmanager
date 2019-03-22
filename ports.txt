@@ -3,6 +3,9 @@
 
 1935 - unifivideo
 
+2202 - ubooquity
+2203 - ubooquity
+
 5050 - couchpotato
 
 5075 - nzbdhydra
@@ -28,6 +31,8 @@
 8080 - sabnzbd
 8081 - tautulli
 8082 - traefik
+
+8090 - mylar
 
 8989 - sonarr
 9000 - portainer
