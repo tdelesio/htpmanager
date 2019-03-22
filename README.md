@@ -20,10 +20,10 @@ CLOUDFLARE_EMAIL=email@example.com
 CLOUDFLARE_API_KEY=XXXXXXXXXXXX
 
 3.  
-chmod 600 /mnt/storage/appdata/data/traefik/acme/acme.json
+chmod 600 /mnt/storage/appdata/docker/htpmanager/traefik/acme/acme.json
 
 4. 
-nano /mnt/storage/appdata/data/traefik/traefik.toml
+nano /mnt/storage/appdata/docker/htpmanager/traefik/traefik.toml
 
 a. email@domain.com: with your email.
 b. EXAMPLE.COM: with your private domain name.
@@ -32,4 +32,9 @@ d. provider = "cloudflare": Change to your DNS provider for DNS challenge.
 e. exposedbydefault = false: This will force you to use traefik.enable=true label in docker compose to put apps behind traefik.
 
 5. 
+mnt/storage/appdata/sabnzbd/config/sabnzbd.ini
 update sabnzbd.ini and add host to the white list
+
+6. 
+create docker network
+docker network create traefik_proxy
