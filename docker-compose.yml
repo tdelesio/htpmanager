@@ -33,7 +33,6 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=true"
-#    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 #sabnzbd - downloader
   sabnzbd:
@@ -72,7 +71,6 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
   #nzbhydra - aggregates indxers
   nzbhydra:
@@ -107,7 +105,6 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 #  #plex - media server
   plex:
@@ -191,7 +188,6 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 #sonarr - tv downloader
   sonarr:
@@ -455,7 +451,6 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 #    #plex integration with google home
   phlex:
