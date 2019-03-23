@@ -309,6 +309,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --schedule "0 0 4 * * *" --cleanup
+    networks:
+    - traefik_proxy
 
   #netdata - metrics for apps
   netdata:
@@ -325,7 +327,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - shared:/shared
     networks:
-    - default
+#    - default
     - traefik_proxy
     labels:
     - "traefik.enable=true"
