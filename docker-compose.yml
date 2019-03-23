@@ -140,6 +140,7 @@ services:
       - ADVERTISE_IP="http://10.0.0.10:32400/"
       - HOSTNAME="Docker Plex"
       - PLEX_CLAIM=${PLEX_CLAIM}
+      - ALLOWED_NETWORKS=10.0.0.0/8
     networks:
     - traefik_proxy
     labels:
