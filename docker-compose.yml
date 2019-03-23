@@ -128,7 +128,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - ADVERTISE_IP="http://SERVER-IP:32400/"
+      - ADVERTISE_IP="http://10.0.0.10:32400/"
       - HOSTNAME="Docker Plex"
       - PLEX_CLAIM=${PLEX_CLAIM}
     networks:
