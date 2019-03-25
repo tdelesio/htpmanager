@@ -1,0 +1,47 @@
+80 - traefik
+443 - traefik
+
+1935 - unifivideo
+
+2202 - ubooquity
+2203 - ubooquity
+
+5050 - couchpotato
+
+5075 - nzbdhydra
+
+5299 - lazylibrian
+
+5666 - phlex
+5667 - phlex
+
+6666 - unifivideo
+
+7442 - unifivideo
+7443 - unifivideo
+7444 - unifivideo
+7445 - unifivideo
+7446 - unifivideo
+7447 - unifivideo
+
+7080 - unifivideo
+
+8075 - heimdall
+
+8080 - sabnzbd
+8081 - tautulli
+8082 - traefik
+
+8090 - mylar
+
+8989 - sonarr
+9000 - portainer
+
+9090 - sabnzdb ?
+
+10001 - unifivideo
+
+19999 - netdata
+
+32400 - plex
+
