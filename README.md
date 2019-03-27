@@ -1,6 +1,22 @@
-Traefik setup:
+#Linux File Mounts
+Edit the fstab file by issuing
+sudo /etc/fstab
+
+At a line per share type.  So for instance:
+/mnt/storage/media/<share_name>
+
+If you want to use a different path for your content, then you need to edit
+the docker-compose file and modify the volumes at the end of the file.
+
+#Docker Compose
+
+My default path:
+/mnt/storage/appdata/docker/
+
+clone repo at that location
 
 
+#Traefik setup:
 1.
 sudo touch /mnt/storage/appdata/docker/shared/.htpasswd
 nano /mnt/storage/appdata/docker/shared/.htpasswd
