@@ -8,7 +8,7 @@ services:
 #    image: svanscho/rpi-spotify
     image: kevineye/librespot
     volumes:
-    - /mnt/storage/appdata/spotify-pipe:/data/fifo
+    - /dev/snd:/data/fifo
 #    #    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
 #    - /mnt/storage/appdata/mopidy/local:/var/lib/mopidy/local
 #    - /mnt/storage/appdata/mopidy/config:/var/lib/mopidy/.config/
