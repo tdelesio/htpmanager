@@ -4,8 +4,8 @@ services:
 
   spotify:
     container_name: rpi-spotify
-    image: wernight/mopidy
-#    image: svanscho/rpi-spotify
+#    image: wernight/mopidy
+    image: svanscho/rpi-spotify
 #    image: kevineye/librespot
 #    volumes:
 #    - /dev/snd:/data/fifo
