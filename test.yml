@@ -2,13 +2,13 @@ version: '2'
 services:
 
 
-  mopidy:
-#    container_name: mopidy
-#    image: wernight/mopidy
+  spotify:
+    container_name: rpi-spotify
+    image: wernight/mopidy
 #    image: svanscho/rpi-spotify
-    image: kevineye/librespot
-    volumes:
-    - /dev/snd:/data/fifo
+#    image: kevineye/librespot
+#    volumes:
+#    - /dev/snd:/data/fifo
 #    #    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
 #    - /mnt/storage/appdata/mopidy/local:/var/lib/mopidy/local
 #    - /mnt/storage/appdata/mopidy/config:/var/lib/mopidy/.config/
@@ -16,8 +16,8 @@ services:
 #    - 6600:6600
 #    - 6680:6680
     network_mode: host
-#    devices:
-#    - /dev/snd:/dev/snd
+    devices:
+    - /dev/snd:/dev/snd
 #    - /dev/snd
     environment:
     - SPOTIFY_NAME=docker-spotify
