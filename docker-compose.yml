@@ -466,9 +466,9 @@ services:
     - "traefik.frontend.headers.frameDeny=false"
 
 #    #plex integration with google home
-  phlex:
+  flex:
     container_name: phlex
-    image: digitalhigh/FlexTV
+    image: digitalhigh/flextv
     volumes:
     - /mnt/storage/appdata/phlex:/config
     ports:
