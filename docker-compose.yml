@@ -467,17 +467,36 @@ services:
 
 #    #plex integration with google home
   flex:
-    container_name: phlex
+    container_name: flex
     image: digitalhigh/flextv
     volumes:
     - /mnt/storage/appdata/phlex:/config
+    - shared:/shared
     ports:
-    - 5666:80
-    - 5667:443
+#    - 5666:80
+#    - 5667:443
     environment:
     - HTTPPORT=5666
     - HTTPSPORT=5667
     - FASTCGIPORT=9000
+    networks:
+    - traefik_proxy
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=flex"
+    - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
+    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /movies"
+    - "traefik.port=5667"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
 
   unifi-video2:
     container_name: unifivideo2
