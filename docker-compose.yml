@@ -468,7 +468,7 @@ services:
 #    #plex integration with google home
   phlex:
     container_name: phlex
-    image: digitalhigh/phlex
+    image: digitalhigh/FlexTV
     volumes:
     - /mnt/storage/appdata/phlex:/config
     ports:
