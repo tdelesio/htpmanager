@@ -470,11 +470,11 @@ services:
     container_name: flex
     image: digitalhigh/flextv
     volumes:
-    - /mnt/storage/appdata/phlex:/config
+    - /mnt/storage/appdata/flex:/config
     - shared:/shared
     ports:
-#    - 5666:80
-#    - 5667:443
+    - 5666:80
+    - 5667:443
     environment:
     - HTTPPORT=5666
     - HTTPSPORT=5667
@@ -486,7 +486,7 @@ services:
     - "traefik.backend=flex"
     - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
     #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /movies"
-    - "traefik.port=5667"
+    - "traefik.port=80"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
     - "traefik.frontend.headers.STSSeconds=315360000"
