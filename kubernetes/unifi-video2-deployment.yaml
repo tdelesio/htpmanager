@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: unifi-video2
+  name: unifi-video2
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: unifi-video2
+    spec:
+      containers:
+      - image: pducharme/unifi-video-controller
+        name: unifivideo2
+        ports:
+        - containerPort: 10001
+        - containerPort: 1935
+        - containerPort: 7080
+        - containerPort: 6666
+        - containerPort: 7442
+        - containerPort: 7443
+        - containerPort: 7444
+        - containerPort: 7445
+        - containerPort: 7446
+        - containerPort: 7447
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - DAC_READ_SEARCH
+        volumeMounts:
+        - mountPath: /config
+          name: unifi-video2-claim0
+      restartPolicy: Always
+      volumes:
+      - name: unifi-video2-claim0
+        persistentVolumeClaim:
+          claimName: unifi-video2-claim0
+status: {}

@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: phlex
+  name: phlex
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: phlex
+    spec:
+      containers:
+      - env:
+        - name: FASTCGIPORT
+          value: "9000"
+        - name: HTTPPORT
+          value: "5666"
+        - name: HTTPSPORT
+          value: "5667"
+        image: digitalhigh/phlex
+        name: phlex
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        resources: {}
+        volumeMounts:
+        - mountPath: /config
+          name: phlex-claim0
+      restartPolicy: Always
+      volumes:
+      - name: phlex-claim0
+        persistentVolumeClaim:
+          claimName: phlex-claim0
+status: {}

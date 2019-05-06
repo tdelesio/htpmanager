@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 ()
+    traefik.backend: traefik
+    traefik.docker.network: traefik_proxy
+    traefik.enable: "true"
+    traefik.frontend.auth.basic.users: tdelesio:$apr1$MB/owCuq$Wk7GuIG6a/TByQEeT5yN9.
+    traefik.frontend.headers.SSLHost: delesio.com
+    traefik.frontend.headers.SSLRedirect: "true"
+    traefik.frontend.headers.STSIncludeSubdomains: "true"
+    traefik.frontend.headers.STSPreload: "true"
+    traefik.frontend.headers.STSSeconds: "315360000"
+    traefik.frontend.headers.browserXSSFilter: "true"
+    traefik.frontend.headers.contentTypeNosniff: "true"
+    traefik.frontend.headers.forceSTSHeader: "true"
+    traefik.frontend.headers.frameDeny: "true"
+    traefik.frontend.rule: Host:traefik.delesio.com
+    traefik.port: "8080"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: traefik
+  name: traefik
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+  - name: "443"
+    port: 443
+    targetPort: 443
+  - name: "8082"
+    port: 8082
+    targetPort: 8080
+  selector:
+    io.kompose.service: traefik
+status:
+  loadBalancer: {}

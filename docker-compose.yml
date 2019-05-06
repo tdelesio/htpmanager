@@ -502,6 +502,19 @@ services:
     - 7446:7446
     - 7447:7447
 
+  mopidy:
+    container_name: mopidy
+    image: wernight/mopidy
+    volumes:
+#    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
+    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
+    ports:
+    - 6600:6600
+    - 6680:6680
+    devices:
+    - /dev/snd
+
+
 #    #traefik - reverse proxy
   traefik:
     hostname: traefik

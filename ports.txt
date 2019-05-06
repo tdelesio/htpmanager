@@ -15,7 +15,9 @@
 5666 - phlex
 5667 - phlex
 
+6600 - mopidy
 6666 - unifivideo
+6680 - mopidy
 
 7442 - unifivideo
 7443 - unifivideo
