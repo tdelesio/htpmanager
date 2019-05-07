@@ -1,0 +1,16 @@
+version: '2'
+services:
+
+
+  mopidy:
+    container_name: mopidy
+    image: wernight/mopidy
+    volumes:
+    - /mnt/storage/appdata/mopidy/local:/var/lib/mopidy/local
+    - /mnt/storage/appdata/mopidy/config:/var/lib/mopidy/.config/
+    ports:
+    - 6600:6600
+    - 6680:6680
+#    network_mode: host
+    devices:
+    - /dev/snd:/dev/snd

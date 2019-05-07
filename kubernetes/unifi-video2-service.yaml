@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: unifi-video2
+  name: unifi-video2
+spec:
+  ports:
+  - name: "10001"
+    port: 10001
+    targetPort: 10001
+  - name: "1935"
+    port: 1935
+    targetPort: 1935
+  - name: "7080"
+    port: 7080
+    targetPort: 7080
+  - name: "6666"
+    port: 6666
+    targetPort: 6666
+  - name: "7442"
+    port: 7442
+    targetPort: 7442
+  - name: "7443"
+    port: 7443
+    targetPort: 7443
+  - name: "7444"
+    port: 7444
+    targetPort: 7444
+  - name: "7445"
+    port: 7445
+    targetPort: 7445
+  - name: "7446"
+    port: 7446
+    targetPort: 7446
+  - name: "7447"
+    port: 7447
+    targetPort: 7447
+  selector:
+    io.kompose.service: unifi-video2
+status:
+  loadBalancer: {}

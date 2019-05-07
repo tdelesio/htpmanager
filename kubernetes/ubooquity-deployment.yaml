@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 ()
+    traefik.backend: ubooquity
+    traefik.docker.network: traefik_proxy
+    traefik.enable: "true"
+    traefik.frontend.auth.basic.users: tdelesio:$apr1$MB/owCuq$Wk7GuIG6a/TByQEeT5yN9.
+    traefik.frontend.headers.SSLHost: delesio.com
+    traefik.frontend.headers.SSLRedirect: "true"
+    traefik.frontend.headers.STSIncludeSubdomains: "true"
+    traefik.frontend.headers.STSPreload: "true"
+    traefik.frontend.headers.STSSeconds: "315360000"
+    traefik.frontend.headers.browserXSSFilter: "true"
+    traefik.frontend.headers.contentTypeNosniff: "true"
+    traefik.frontend.headers.forceSTSHeader: "true"
+    traefik.frontend.headers.frameDeny: "false"
+    traefik.frontend.rule: Host:comics.delesio.com
+    traefik.port: "2202"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ubooquity
+  name: ubooquity
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ubooquity
+    spec:
+      containers:
+      - env:
+        - name: PGID
+        - name: PUID
+        - name: TZ
+          value: '"America/New_York"'
+        image: linuxserver/ubooquity
+        name: ubooquity
+        resources: {}
+        volumeMounts:
+        - mountPath: /config
+          name: ubooquity-claim0
+        - mountPath: /files
+          name: htpmanager-complete-downloads
+        - mountPath: /comics
+          name: htpmanager-comics
+        - mountPath: /shared
+          name: htpmanager-shared
+      restartPolicy: Always
+      volumes:
+      - name: ubooquity-claim0
+        persistentVolumeClaim:
+          claimName: ubooquity-claim0
+      - name: htpmanager-complete-downloads
+        persistentVolumeClaim:
+          claimName: htpmanager-complete-downloads
+      - name: htpmanager-comics
+        persistentVolumeClaim:
+          claimName: htpmanager-comics
+      - name: htpmanager-shared
+        persistentVolumeClaim:
+          claimName: htpmanager-shared
+status: {}

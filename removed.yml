@@ -71,26 +71,6 @@ heimdall:
       - PGID=${PGID}
     restart:
       always
-  letsencrypt:
-    image: linuxserver/letsencrypt
-    container_name: letsencrypt
-    ports:
-      - 443:443
-    volumes:
-      - /mnt/storage/appdata/letsencrypt:/config
-    restart:
-      always
-    environment:
-      - VALIDATION=dns
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - EMAIL=bfrost@brainboy.com
-      - URL=brainboy.com
-      - SUBDOMAINS=wildcard
-      - ONLY_SUBDOMAINS=false
-      - DNSPLUGIN=tls-sni
-      - DHLEVEL=4096
-      - TZ=America/New_York
   syncloung_server:
     image: starbix/synclounge:nginx
     container_name: plextogether_nginx

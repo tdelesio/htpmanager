@@ -121,18 +121,18 @@ services:
       - music:/data/music
       - temp_storage:/transcode
       - shared:/shared
-#    network_mode: host
+    network_mode: host
     restart: always
-    ports:
-      - 32400:32400/tcp
-      - 3005:3005/tcp
-      - 8324:8324/tcp
-      - 32469:32469/tcp
-      - 1900:1900/udp
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
+#    ports:
+#      - 32400:32400/tcp
+#      - 3005:3005/tcp
+#      - 8324:8324/tcp
+#      - 32469:32469/tcp
+#      - 1900:1900/udp
+#      - 32410:32410/udp
+#      - 32412:32412/udp
+#      - 32413:32413/udp
+#      - 32414:32414/udp
     environment:
       - VERSION=public
       - PUID=${PUID}
@@ -142,24 +142,24 @@ services:
       - HOSTNAME="Docker Plex"
       - PLEX_CLAIM=${PLEX_CLAIM}
       - ALLOWED_NETWORKS=10.0.0.0/8
-    networks:
-    - traefik_proxy
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=plexms"
-    - "traefik.frontend.rule=Host:plex.${DOMAINNAME}"
-    - "traefik.port=32400"
-    - "traefik.protocol=http"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
+#    networks:
+#    - traefik_proxy
+#    labels:
+#    - "traefik.enable=true"
+#    - "traefik.backend=plexms"
+#    - "traefik.frontend.rule=Host:plex.${DOMAINNAME}"
+#    - "traefik.port=32400"
+#    - "traefik.protocol=http"
+#    - "traefik.docker.network=traefik_proxy"
+#    - "traefik.frontend.headers.SSLRedirect=true"
+#    - "traefik.frontend.headers.STSSeconds=315360000"
+#    - "traefik.frontend.headers.browserXSSFilter=true"
+#    - "traefik.frontend.headers.contentTypeNosniff=true"
+#    - "traefik.frontend.headers.forceSTSHeader=true"
+#    - "traefik.frontend.headers.SSLHost=delesio.com"
+#    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+#    - "traefik.frontend.headers.STSPreload=true"
+#    - "traefik.frontend.headers.frameDeny=false"
 #    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 #tautulli - plex stats
@@ -466,11 +466,12 @@ services:
     - "traefik.frontend.headers.frameDeny=false"
 
 #    #plex integration with google home
-  phlex:
-    container_name: phlex
-    image: digitalhigh/phlex
+  flex:
+    container_name: flex
+    image: digitalhigh/flextv
     volumes:
-    - /mnt/storage/appdata/phlex:/config
+    - /mnt/storage/appdata/flex:/config
+    - shared:/shared
     ports:
     - 5666:80
     - 5667:443
@@ -478,6 +479,24 @@ services:
     - HTTPPORT=5666
     - HTTPSPORT=5667
     - FASTCGIPORT=9000
+    networks:
+    - traefik_proxy
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=flex"
+    - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
+    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /movies"
+    - "traefik.port=80"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
 
   unifi-video2:
     container_name: unifivideo2
@@ -501,6 +520,19 @@ services:
     - 7445:7445
     - 7446:7446
     - 7447:7447
+
+  mopidy:
+    container_name: mopidy
+    image: wernight/mopidy
+    volumes:
+#    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
+    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
+    ports:
+    - 6600:6600
+    - 6680:6680
+    devices:
+    - /dev/snd
+
 
 #    #traefik - reverse proxy
   traefik:

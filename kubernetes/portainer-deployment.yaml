@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 ()
+    traefik.backend: portainer
+    traefik.docker.network: traefik_proxy
+    traefik.enable: "true"
+    traefik.frontend.headers.SSLHost: delesio.com
+    traefik.frontend.headers.SSLRedirect: "true"
+    traefik.frontend.headers.STSIncludeSubdomains: "true"
+    traefik.frontend.headers.STSPreload: "true"
+    traefik.frontend.headers.STSSeconds: "315360000"
+    traefik.frontend.headers.browserXSSFilter: "true"
+    traefik.frontend.headers.contentTypeNosniff: "true"
+    traefik.frontend.headers.forceSTSHeader: "true"
+    traefik.frontend.headers.frameDeny: "false"
+    traefik.frontend.rule: Host:portainer.delesio.com
+    traefik.port: "9000"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: portainer
+  name: portainer
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: portainer
+    spec:
+      containers:
+      - env:
+        - name: TZ
+          value: '"America/New_York"'
+        image: portainer/portainer
+        name: portainer
+        resources: {}
+        volumeMounts:
+        - mountPath: /data
+          name: portainer-claim0
+        - mountPath: /var/run/docker.sock
+          name: portainer-claim1
+        - mountPath: /shared
+          name: htpmanager-shared
+      restartPolicy: Always
+      volumes:
+      - name: portainer-claim0
+        persistentVolumeClaim:
+          claimName: portainer-claim0
+      - name: portainer-claim1
+        persistentVolumeClaim:
+          claimName: portainer-claim1
+      - name: htpmanager-shared
+        persistentVolumeClaim:
+          claimName: htpmanager-shared
+status: {}
