@@ -21,7 +21,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=organizr"
     - "traefik.frontend.rule=Host:${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /organizr"
     - "traefik.port=80"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -59,7 +58,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=sabnzbd"
     - "traefik.frontend.rule=Host:downloads.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /sabnzbd"
     - "traefik.port=8080"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -93,7 +91,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=hydra"
     - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /hydra"
     - "traefik.port=5075"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -142,25 +139,6 @@ services:
       - HOSTNAME="Docker Plex"
       - PLEX_CLAIM=${PLEX_CLAIM}
       - ALLOWED_NETWORKS=10.0.0.0/8
-#    networks:
-#    - traefik_proxy
-#    labels:
-#    - "traefik.enable=true"
-#    - "traefik.backend=plexms"
-#    - "traefik.frontend.rule=Host:plex.${DOMAINNAME}"
-#    - "traefik.port=32400"
-#    - "traefik.protocol=http"
-#    - "traefik.docker.network=traefik_proxy"
-#    - "traefik.frontend.headers.SSLRedirect=true"
-#    - "traefik.frontend.headers.STSSeconds=315360000"
-#    - "traefik.frontend.headers.browserXSSFilter=true"
-#    - "traefik.frontend.headers.contentTypeNosniff=true"
-#    - "traefik.frontend.headers.forceSTSHeader=true"
-#    - "traefik.frontend.headers.SSLHost=delesio.com"
-#    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-#    - "traefik.frontend.headers.STSPreload=true"
-#    - "traefik.frontend.headers.frameDeny=false"
-#    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 #tautulli - plex stats
   tautulli:
@@ -226,7 +204,6 @@ services:
     labels:
     - "traefik.enable=true"
     - "traefik.backend=sonarr"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /sonarr"
     - "traefik.frontend.rule=Host:sonarr.${DOMAINNAME}"
     - "traefik.port=8989"
     - "traefik.docker.network=traefik_proxy"
@@ -239,7 +216,6 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
   #portainer - docker manager
   portainer:
@@ -344,7 +320,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=netdata"
     - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /netdata"
     - "traefik.port=19999"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -382,7 +357,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=ubooquity"
     - "traefik.frontend.rule=Host:comics.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /movies"
     - "traefik.port=2202"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -417,7 +391,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=mylar"
     - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /movies"
     - "traefik.port=8090"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -452,7 +425,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=couchpotato"
     - "traefik.frontend.rule=Host:movies.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /movies"
     - "traefik.port=5050"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -485,7 +457,6 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=flex"
     - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /movies"
     - "traefik.port=80"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
