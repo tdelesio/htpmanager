@@ -385,6 +385,7 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=${TZ}
+    restart: always
     networks:
     - traefik_proxy
     labels:
@@ -419,6 +420,7 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=${TZ}
+    restart: always
     networks:
     - traefik_proxy
     labels:
@@ -441,6 +443,7 @@ services:
   flex:
     container_name: flex
     image: digitalhigh/flextv
+    restart: always
     volumes:
     - /mnt/storage/appdata/flex:/config
     - shared:/shared
@@ -473,6 +476,7 @@ services:
     container_name: unifivideo2
     image: pducharme/unifi-video-controller
     network_mode: host
+    restart: always
     volumes:
     - /mnt/storage/appdata/unfivideo2:/config
     cap_add:
@@ -494,6 +498,7 @@ services:
 
   mopidy:
     container_name: mopidy
+    restart: always
     image: wernight/mopidy
     volumes:
 #    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
