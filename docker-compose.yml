@@ -335,76 +335,76 @@ services:
     - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
   #ubooquity - manages comics
-  ubooquity:
-    image: linuxserver/ubooquity
-    container_name: ubooquity
-#    ports:
-#    - 2202:2202
-#    - 2203:2203
-    volumes:
-    - /mnt/storage/appdata/ubooquity:/config
-    - complete_downloads:/files
-    - comics:/comics
-    - shared:/shared
-    restart:
-      always
-    environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
-    networks:
-    - traefik_proxy
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=ubooquity"
-    - "traefik.frontend.rule=Host:comics.${DOMAINNAME}"
-    - "traefik.port=2202"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+#  ubooquity:
+#    image: linuxserver/ubooquity
+#    container_name: ubooquity
+##    ports:
+##    - 2202:2202
+##    - 2203:2203
+#    volumes:
+#    - /mnt/storage/appdata/ubooquity:/config
+#    - complete_downloads:/files
+#    - comics:/comics
+#    - shared:/shared
+#    restart:
+#      always
+#    environment:
+#    - PUID=${PUID}
+#    - PGID=${PGID}
+#    - TZ=${TZ}
+#    networks:
+#    - traefik_proxy
+#    labels:
+#    - "traefik.enable=true"
+#    - "traefik.backend=ubooquity"
+#    - "traefik.frontend.rule=Host:comics.${DOMAINNAME}"
+#    - "traefik.port=2202"
+#    - "traefik.docker.network=traefik_proxy"
+#    - "traefik.frontend.headers.SSLRedirect=true"
+#    - "traefik.frontend.headers.STSSeconds=315360000"
+#    - "traefik.frontend.headers.browserXSSFilter=true"
+#    - "traefik.frontend.headers.contentTypeNosniff=true"
+#    - "traefik.frontend.headers.forceSTSHeader=true"
+#    - "traefik.frontend.headers.SSLHost=delesio.com"
+#    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+#    - "traefik.frontend.headers.STSPreload=true"
+#    - "traefik.frontend.headers.frameDeny=false"
+#    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
-  #mylar - comic download
-  mylar:
-    image: linuxserver/mylar
-    container_name: mylar
-#    ports:
-#      - 8090:8090
-    volumes:
-      - /mnt/storage/appdata/mylay:/config
-      - complete_downloads:/downloads
-      - comics:/comics
-      - shared:/shared
-    environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
-    restart: always
-    networks:
-    - traefik_proxy
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=mylar"
-    - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"
-    - "traefik.port=8090"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+#  #mylar - comic download
+#  mylar:
+#    image: linuxserver/mylar
+#    container_name: mylar
+##    ports:
+##      - 8090:8090
+#    volumes:
+#      - /mnt/storage/appdata/mylay:/config
+#      - complete_downloads:/downloads
+#      - comics:/comics
+#      - shared:/shared
+#    environment:
+#    - PUID=${PUID}
+#    - PGID=${PGID}
+#    - TZ=${TZ}
+#    restart: always
+#    networks:
+#    - traefik_proxy
+#    labels:
+#    - "traefik.enable=true"
+#    - "traefik.backend=mylar"
+#    - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"
+#    - "traefik.port=8090"
+#    - "traefik.docker.network=traefik_proxy"
+#    - "traefik.frontend.headers.SSLRedirect=true"
+#    - "traefik.frontend.headers.STSSeconds=315360000"
+#    - "traefik.frontend.headers.browserXSSFilter=true"
+#    - "traefik.frontend.headers.contentTypeNosniff=true"
+#    - "traefik.frontend.headers.forceSTSHeader=true"
+#    - "traefik.frontend.headers.SSLHost=delesio.com"
+#    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+#    - "traefik.frontend.headers.STSPreload=true"
+#    - "traefik.frontend.headers.frameDeny=false"
+#    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 #couchpotato - for movie downloads
   couchpotato:
@@ -497,18 +497,18 @@ services:
     - 7446:7446
     - 7447:7447
 
-  mopidy:
-    container_name: mopidy
-    restart: always
-    image: wernight/mopidy
-    volumes:
-#    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
-    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
-    ports:
-    - 6600:6600
-    - 6680:6680
-    devices:
-    - /dev/snd
+#  mopidy:
+#    container_name: mopidy
+#    restart: always
+#    image: wernight/mopidy
+#    volumes:
+##    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
+#    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
+#    ports:
+#    - 6600:6600
+#    - 6680:6680
+#    devices:
+#    - /dev/snd
 
 
 #    #traefik - reverse proxy
