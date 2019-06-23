@@ -62,6 +62,12 @@ update sabnzbd.ini and add host to the white list
 create docker network
 docker network create traefik_proxy
 
+7.
+create a mount for traefik and copy the /htpmanager/traefik folder to the mount.
+
+8.
+generate a acme.json file in the /traefik/acme/acme.json folder 
+
 If you get stuck, check out:
 https://www.smarthomebeginner.com/traefik-reverse-proxy-tutorial-for-docker/
 
