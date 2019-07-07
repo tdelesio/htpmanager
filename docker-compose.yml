@@ -479,7 +479,9 @@ services:
     network_mode: host
     restart: always
     volumes:
-    - /mnt/storage/appdata/unfivideo2:/config
+    - /mnt/storage/appdata/unfivideo2/config:/config
+    - /mnt/storage/appdata/unfivideo2/data:/var/lib/unifi-video
+    - /mnt/storage/appdata/unfivideo2/videos:/var/lib/unifi-video/videos
     cap_add:
     - SYS_ADMIN
     - DAC_READ_SEARCH
