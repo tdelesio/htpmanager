@@ -552,6 +552,21 @@ services:
     - /mnt/storage/appdata/traefik:/etc/traefik
     - /mnt/storage/appdata/docker/shared:/shared
 
+  homeassistant:
+    image: homeassistant/home-assistant
+    container_name: homeassistant
+    networks:
+    - default
+    ports:
+    - 8123:8123
+    - 8300:8300
+    volumes:
+    - /mnt/storage/appdata/homeassistant/config:/config
+    - /mnt/storage/appdata/homeassistant/app:/usr/src/app
+
+
+
+
 
 networks:
   traefik_proxy:
