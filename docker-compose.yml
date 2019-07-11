@@ -552,18 +552,29 @@ services:
     - /mnt/storage/appdata/traefik:/etc/traefik
     - /mnt/storage/appdata/docker/shared:/shared
 
-  homeassistant:
-    image: homeassistant/home-assistant
-    container_name: "home-assistant"
-    ports:
-    - 8123:8123
-    volumes:
-    - /mnt/storage/appdata/homeassistant/config:/config
+#  homeassistant:
+#    image: homeassistant/home-assistant
+#    container_name: "home-assistant"
+#    ports:
+#    - 8123:8123
+#    volumes:
+#    - /mnt/storage/appdata/homeassistant/config:/config
+#    network_mode: "host"
+#    environment:
+#    - TZ=${TZ}
+#    init: true
+
+  spotify:
+    image: kevineye/librespot
+    container_name: spotify_headless
     network_mode: "host"
     environment:
     - TZ=${TZ}
-#    init: true
-    
+    - SPOTIFY_NAME=Docker
+    - SPOTIFY_USER=12121880039
+    - SPOTIFY_PASSWORD=rage311
+    volumes:
+    - /mnt/storage/appdata/spotify/spotify-pipe:/data/fifo
 
 
 
