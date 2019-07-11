@@ -499,18 +499,18 @@ services:
     - 7446:7446
     - 7447:7447
 
-#  mopidy:
-#    container_name: mopidy
-#    restart: always
-#    image: wernight/mopidy
-#    volumes:
-##    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
-#    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
-#    ports:
-#    - 6600:6600
-#    - 6680:6680
-#    devices:
-#    - /dev/snd
+  mopidy:
+    container_name: mopidy
+    restart: always
+    image: wernight/mopidy
+    volumes:
+#    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
+    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
+    ports:
+    - 6600:6600
+    - 6680:6680
+    devices:
+    - /dev/snd
 
 
 #    #traefik - reverse proxy
@@ -564,17 +564,17 @@ services:
 #    - TZ=${TZ}
 #    init: true
 
-  spotify:
-    image: kevineye/librespot
-    container_name: spotify_headless
-    network_mode: "host"
-    environment:
-    - TZ=${TZ}
-    - SPOTIFY_NAME=Docker
-    - SPOTIFY_USER=12121880039
-    - SPOTIFY_PASSWORD=rage311
-    volumes:
-    - /mnt/storage/appdata/spotify/spotify-pipe:/data/fifo
+#  spotify:
+#    image: kevineye/librespot
+#    container_name: spotify_headless
+#    network_mode: "host"
+#    environment:
+#    - TZ=${TZ}
+#    - SPOTIFY_NAME=Docker
+#    - SPOTIFY_USER=12121880039
+#    - SPOTIFY_PASSWORD=rage311
+#    volumes:
+#    - /mnt/storage/appdata/spotify/spotify-pipe:/data/fifo
 
 
 
