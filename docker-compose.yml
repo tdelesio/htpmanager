@@ -505,7 +505,8 @@ services:
     image: wernight/mopidy
     volumes:
 #    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
-    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
+#    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
+    -  /mnt/storage/appdata/mopidy/mopidy.conf:/config/mopidy.conf
     ports:
     - 6600:6600
     - 6680:6680
