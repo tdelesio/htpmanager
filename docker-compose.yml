@@ -578,6 +578,17 @@ services:
 #    volumes:
 #    - /mnt/storage/appdata/spotify/spotify-pipe:/data/fifo
 
+  spotifyd:
+    image: ggoussard/spotifyd
+    network_mode: "host"
+    devices:
+    - /dev/snd
+    volumes:
+    - /usr/share/alsa:/usr/share/alsa
+#    - /mnt/storage/appdata/spotifyd:/etc
+    environment:
+    - TZ=${TZ}
+
 
 
 
