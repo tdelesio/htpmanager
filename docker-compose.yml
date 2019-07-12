@@ -584,8 +584,8 @@ services:
     devices:
     - /dev/snd
     volumes:
-    - /usr/share/alsa:/usr/share/alsa
-#    - /mnt/storage/appdata/spotifyd:/etc
+#    - /usr/share/alsa:/usr/share/alsa
+    - /mnt/storage/appdata/spotifyd:/etc
     environment:
     - TZ=${TZ}
 
