@@ -582,7 +582,7 @@ services:
     image: ggoussard/spotifyd
     network_mode: "host"
     devices:
-    - /dev/snd
+    - /dev/snd:/dev/snd
     volumes:
     - /usr/share/alsa:/usr/share/alsa
     - /mnt/storage/appdata/spotifyd:/etc
