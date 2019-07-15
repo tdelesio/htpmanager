@@ -72,3 +72,10 @@ If you get stuck, check out:
 https://www.smarthomebeginner.com/traefik-reverse-proxy-tutorial-for-docker/
 
 I used this site heavily to get it running.  
+
+
+9.  Spotifyd
+create a file in /etc/spotify.config 
+
+[global]
+backend=pulseaudio

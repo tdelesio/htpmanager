@@ -499,21 +499,6 @@ services:
     - 7446:7446
     - 7447:7447
 
-#  mopidy:
-#    container_name: mopidy
-#    restart: always
-#    image: wernight/mopidy
-#    volumes:
-##    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/media:ro
-##    - /mnt/storage/appdata/mopidy:/var/lib/mopidy/local
-#    -  /mnt/storage/appdata/mopidy/config:/config
-#    ports:
-#    - 6600:6600
-#    - 6680:6680
-#    devices:
-#    - /dev/snd
-#    network_mode: "host"
-
 
 #    #traefik - reverse proxy
   traefik:
@@ -554,40 +539,23 @@ services:
     - /mnt/storage/appdata/traefik:/etc/traefik
     - /mnt/storage/appdata/docker/shared:/shared
 
-#  homeassistant:
-#    image: homeassistant/home-assistant
-#    container_name: "home-assistant"
-#    ports:
-#    - 8123:8123
-#    volumes:
-#    - /mnt/storage/appdata/homeassistant/config:/config
-#    network_mode: "host"
-#    environment:
-#    - TZ=${TZ}
-#    init: true
-
-#  spotify:
-#    image: kevineye/librespot
-#    container_name: spotify_headless
-#    network_mode: "host"
-#    environment:
-#    - TZ=${TZ}
-#    - SPOTIFY_NAME=Docker
-#    - SPOTIFY_USER=12121880039
-#    - SPOTIFY_PASSWORD=
-#    volumes:
-#    - /mnt/storage/appdata/spotify/spotify-pipe:/data/fifo
-
   spotifyd:
-    image: ggoussard/spotifyd
+#    image: ggoussard/spotifyd
+#    image: spotifyd:local
+    image: vace117/spotify-connect-server
     network_mode: "host"
     devices:
     - /dev/snd:/dev/snd
     volumes:
-    - /usr/share/alsa:/usr/share/alsa
-    - /mnt/storage/appdata/spotifyd:/etc
+#    - /usr/share/alsa:/usr/share/alsa
+#    - /mnt/storage/appdata/spotifyd:/etc
+    - /dev/shm:/dev/shm
+    - /etc:/etc
+    - $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse
     environment:
     - TZ=${TZ}
+    - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
+
 
 
 
