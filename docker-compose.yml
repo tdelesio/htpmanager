@@ -548,13 +548,14 @@ services:
     - /dev/snd:/dev/snd
     volumes:
 #    - /usr/share/alsa:/usr/share/alsa
-#    - /mnt/storage/appdata/spotifyd:/etc
+#    - /mnt/storage/appdata/spotifyd/root:/root
     - /dev/shm:/dev/shm
     - /etc:/etc
     - $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse
     environment:
     - TZ=${TZ}
     - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
+    - DEVICE_NAME=docker
 
 
 
