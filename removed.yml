@@ -1,6 +1,130 @@
 version: '2'
 services:
   heimdall - gateway, manager
+
+    #plex integration with google home
+  flex:
+    container_name: flex
+    image: digitalhigh/flextv
+    restart: always
+    volumes:
+    - /mnt/storage/appdata/flex:/config
+    - shared:/shared
+    ports:
+    - 5666:80
+    - 5667:443
+    environment:
+    - HTTPPORT=5666
+    - HTTPSPORT=5667
+    - FASTCGIPORT=9000
+    networks:
+    - traefik_proxy
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=flex"
+    - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
+    - "traefik.port=80"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
+
+  spotifyd:
+    image: ggoussard/spotifyd
+    image: spotifyd:local
+    image: vace117/spotify-connect-server
+    network_mode: "host"
+    devices:
+    - /dev/snd:/dev/snd
+    volumes:
+    - /usr/share/alsa:/usr/share/alsa
+    - /mnt/storage/appdata/spotifyd/root:/root
+    - /dev/shm:/dev/shm
+    - /etc:/etc
+    - $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse
+    environment:
+    - TZ=${TZ}
+    - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
+    - DEVICE_NAME=docker
+
+ubooquity - manages comics
+  ubooquity:
+    image: linuxserver/ubooquity
+    container_name: ubooquity
+#    ports:
+#    - 2202:2202
+#    - 2203:2203
+    volumes:
+    - /mnt/storage/appdata/ubooquity:/config
+    - complete_downloads:/files
+    - comics:/comics
+    - shared:/shared
+    restart:
+      always
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    networks:
+    - traefik_proxy
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=ubooquity"
+    - "traefik.frontend.rule=Host:comics.${DOMAINNAME}"
+    - "traefik.port=2202"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
+    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+
+  #mylar - comic download
+  mylar:
+    image: linuxserver/mylar
+    container_name: mylar
+#    ports:
+#      - 8090:8090
+    volumes:
+      - /mnt/storage/appdata/mylay:/config
+      - complete_downloads:/downloads
+      - comics:/comics
+      - shared:/shared
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    restart: always
+    networks:
+    - traefik_proxy
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=mylar"
+    - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"
+    - "traefik.port=8090"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
+    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+
 heimdall:
   image: linuxserver/heimdall
   container_name: heimdall
