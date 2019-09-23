@@ -221,8 +221,8 @@ services:
   portainer:
     image: portainer/portainer
     container_name: portainer
-#    ports:
-#      - 9000:9000
+    ports:
+      - 9000:9000
     volumes:
       - /mnt/storage/appdata/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -233,6 +233,7 @@ services:
     - TZ=${TZ}
     networks:
     - traefik_proxy
+#    network_mode: host
     labels:
     - "traefik.enable=true"
     - "traefik.backend=portainer"
@@ -441,37 +442,37 @@ services:
     - "traefik.frontend.headers.frameDeny=false"
 
 #    #plex integration with google home
-  flex:
-    container_name: flex
-    image: digitalhigh/flextv
-    restart: always
-    volumes:
-    - /mnt/storage/appdata/flex:/config
-    - shared:/shared
-    ports:
-    - 5666:80
-    - 5667:443
-    environment:
-    - HTTPPORT=5666
-    - HTTPSPORT=5667
-    - FASTCGIPORT=9000
-    networks:
-    - traefik_proxy
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=flex"
-    - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
-    - "traefik.port=80"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
+#  flex:
+#    container_name: flex
+#    image: digitalhigh/flextv
+#    restart: always
+#    volumes:
+#    - /mnt/storage/appdata/flex:/config
+#    - shared:/shared
+#    ports:
+#    - 5666:80
+#    - 5667:443
+#    environment:
+#    - HTTPPORT=5666
+#    - HTTPSPORT=5667
+#    - FASTCGIPORT=9000
+#    networks:
+#    - traefik_proxy
+#    labels:
+#    - "traefik.enable=true"
+#    - "traefik.backend=flex"
+#    - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
+#    - "traefik.port=80"
+#    - "traefik.docker.network=traefik_proxy"
+#    - "traefik.frontend.headers.SSLRedirect=true"
+#    - "traefik.frontend.headers.STSSeconds=315360000"
+#    - "traefik.frontend.headers.browserXSSFilter=true"
+#    - "traefik.frontend.headers.contentTypeNosniff=true"
+#    - "traefik.frontend.headers.forceSTSHeader=true"
+#    - "traefik.frontend.headers.SSLHost=delesio.com"
+#    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+#    - "traefik.frontend.headers.STSPreload=true"
+#    - "traefik.frontend.headers.frameDeny=false"
 
   unifi-video2:
     container_name: unifivideo2
@@ -503,7 +504,7 @@ services:
 #    #traefik - reverse proxy
   traefik:
     hostname: traefik
-    image: traefik:latest
+    image: traefik:v1.7.16
     container_name: traefik
     restart: always
     domainname: ${DOMAINNAME}
@@ -539,27 +540,23 @@ services:
     - /mnt/storage/appdata/traefik:/etc/traefik
     - /mnt/storage/appdata/docker/shared:/shared
 
-  spotifyd:
+#  spotifyd:
 #    image: ggoussard/spotifyd
 #    image: spotifyd:local
-    image: vace117/spotify-connect-server
-    network_mode: "host"
-    devices:
-    - /dev/snd:/dev/snd
-    volumes:
+#    image: vace117/spotify-connect-server
+#    network_mode: "host"
+#    devices:
+#    - /dev/snd:/dev/snd
+#    volumes:
 #    - /usr/share/alsa:/usr/share/alsa
 #    - /mnt/storage/appdata/spotifyd/root:/root
-    - /dev/shm:/dev/shm
-    - /etc:/etc
-    - $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse
-    environment:
-    - TZ=${TZ}
-    - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
-    - DEVICE_NAME=docker
-
-
-
-
+#    - /dev/shm:/dev/shm
+#    - /etc:/etc
+#    - $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse
+#    environment:
+#    - TZ=${TZ}
+#    - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
+#    - DEVICE_NAME=docker
 
 
 networks:
