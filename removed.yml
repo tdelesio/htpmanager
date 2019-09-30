@@ -53,6 +53,33 @@ services:
     - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
     - DEVICE_NAME=docker
 
+
+  unifi-video2:
+    container_name: unifivideo2
+    image: pducharme/unifi-video-controller
+    network_mode: host
+    restart: always
+    volumes:
+    - /mnt/storage/appdata/unfivideo2/config:/config
+    - /mnt/storage/appdata/unfivideo2/data:/var/lib/unifi-video
+    - /mnt/storage/appdata/unfivideo2/videos:/var/lib/unifi-video/videos
+    cap_add:
+    - SYS_ADMIN
+    - DAC_READ_SEARCH
+    security_opt:
+    - apparmor:unconfined
+    ports:
+    - 10001:10001
+    - 1935:1935
+    - 7080:7080
+    - 6666:6666
+    - 7442:7442
+    - 7443:7443
+    - 7444:7444
+    - 7445:7445
+    - 7446:7446
+    - 7447:7447
+
 ubooquity - manages comics
   ubooquity:
     image: linuxserver/ubooquity
