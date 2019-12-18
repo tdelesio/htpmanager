@@ -40,9 +40,9 @@ Get Plex claim from here: https://www.plex.tv/claim/
 EDIT the following in that file:
 - email@domain.com: with your email.
 - EXAMPLE.COM: with your private domain name.
-- InsecureSkipVerify = true: I had to add at the beginning to allow some apps (eg. UniFi controller) be accessible through Traefik.
-- provider = "cloudflare": Change to your DNS provider for DNS challenge.
-- exposedbydefault = false: This will force you to use traefik.enable=true label in docker compose to put apps behind traefik.
+- `InsecureSkipVerify = true`: I had to add at the beginning to allow some apps (eg. UniFi controller) be accessible through Traefik.
+- `provider = "cloudflare"`: Change to your DNS provider for DNS challenge.
+- `exposedbydefault = false`: This will force you to use `traefik.enable=true` label in docker compose to put apps behind traefik.
 
 5. `nano /mnt/storage/appdata/sabnzbd/config/sabnzbd.ini`
 update sabnzbd.ini and add host to the white list
