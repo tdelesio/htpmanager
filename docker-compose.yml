@@ -399,28 +399,62 @@ services:
   ########################################
   #couchpotato - for movie downloads
   ########################################
-  couchpotato:
-    image: linuxserver/couchpotato
-    container_name: couchpotato
-#    ports:
-#    - 5050:5050
-    volumes:
-    - /mnt/storage/appdata/couchpotato:/config
-    - complete_downloads:/downloads
-    - movies:/movies
-    - shared:/shared
+#  couchpotato:
+#    image: linuxserver/couchpotato
+#    container_name: couchpotato
+##    ports:
+##    - 5050:5050
+#    volumes:
+#    - /mnt/storage/appdata/couchpotato:/config
+#    - complete_downloads:/downloads
+#    - movies:/movies
+#    - shared:/shared
+#    environment:
+#    - PUID=${PUID}
+#    - PGID=${PGID}
+#    - TZ=${TZ}
+#    restart: always
+#    networks:
+#    - traefik_proxy
+#    labels:
+#    - "traefik.enable=true"
+#    - "traefik.backend=couchpotato"
+#    - "traefik.frontend.rule=Host:movies.${DOMAINNAME}"
+#    - "traefik.port=5050"
+#    - "traefik.docker.network=traefik_proxy"
+#    - "traefik.frontend.headers.SSLRedirect=true"
+#    - "traefik.frontend.headers.STSSeconds=315360000"
+#    - "traefik.frontend.headers.browserXSSFilter=true"
+#    - "traefik.frontend.headers.contentTypeNosniff=true"
+#    - "traefik.frontend.headers.forceSTSHeader=true"
+#    - "traefik.frontend.headers.SSLHost=delesio.com"
+#    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+#    - "traefik.frontend.headers.STSPreload=true"
+#    - "traefik.frontend.headers.frameDeny=false"
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
     environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
+    - PUID=1000
+    - PGID=1000
     - TZ=${TZ}
-    restart: always
+    - UMASK_SET=022 #optional
+    volumes:
+    - /mnt/storage/appdata/radarr:/config
+    - movies:/movies
+    - complete_downloads:/downloads
+    - shared:/shared
+    ports:
+    - 7878:7878
+    restart: unless-stopped
     networks:
     - traefik_proxy
     labels:
     - "traefik.enable=true"
     - "traefik.backend=couchpotato"
     - "traefik.frontend.rule=Host:movies.${DOMAINNAME}"
-    - "traefik.port=5050"
+    - "traefik.port=7878"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
     - "traefik.frontend.headers.STSSeconds=315360000"
