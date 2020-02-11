@@ -20,6 +20,8 @@ services:
     environment:
     - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
     - CF_API_KEY=${CLOUDFLARE_API_KEY}
+    - PUID=${PUID}
+    - PGID=${PGID}
     labels:
     - "traefik.enable=true"
     - "traefik.backend=traefik"
@@ -58,6 +60,8 @@ services:
       always
     environment:
     - TZ=${TZ}
+    - PUID=${PUID}
+    - PGID=${PGID}
     networks:
     - traefik_proxy
     #    network_mode: host
@@ -437,8 +441,8 @@ services:
     image: linuxserver/radarr
     container_name: radarr
     environment:
-    - PUID=1000
-    - PGID=1000
+    - PUID=${PUID}
+    - PGID=${PGID}
     - TZ=${TZ}
     - UMASK_SET=022 #optional
     volumes:
