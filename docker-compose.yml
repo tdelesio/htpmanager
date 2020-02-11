@@ -198,7 +198,8 @@ services:
       - tv:/data/tvshows
       - home_movies:/data/homemovies
       - photos:/data/photos
-      - movies:/data/movies
+#      - movies:/data/movies
+      - /mnt/storage/media/movies:/data/movies
       - christmas_movies:/data/christmas
       - kids_movies:/data/kids
       - music:/data/music
@@ -496,11 +497,11 @@ volumes:
       type: none
       device: /mnt/storage/media/photos
       o: bind
-  movies:
-    driver_opts:
-      type: none
-      device: /mnt/storage/media/movies
-      o: bind
+    movies:
+      driver_opts:
+        type: none
+        device: /mnt/storage/media/movies
+        o: bind
   kids_movies:
     driver_opts:
       type: none
