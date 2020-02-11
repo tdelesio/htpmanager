@@ -497,11 +497,11 @@ volumes:
       type: none
       device: /mnt/storage/media/photos
       o: bind
-    movies:
-      driver_opts:
-        type: none
-        device: /mnt/storage/media/movies
-        o: bind
+  movies:
+    driver_opts:
+      type: none
+      device: /mnt/storage/media/movies
+      o: bind
   kids_movies:
     driver_opts:
       type: none
