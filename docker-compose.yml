@@ -195,16 +195,17 @@ services:
     container_name: plex
     volumes:
       - /mnt/storage/appdata/plex:/config
-      - tv:/data/tvshows
-      - home_movies:/data/homemovies
-      - photos:/data/photos
+      - /mnt/storage/media/tv:/data/tvshows
+      - /mnt/storage/media/home_movies:/data/home_movies
+      - /mnt/storage/media/photos:/data/photos
 #      - movies:/data/movies
       - /mnt/storage/media/movies:/data/movies
-      - christmas_movies:/data/christmas
-      - kids_movies:/data/kids
-      - music:/data/music
-      - temp_storage:/transcode
-      - shared:/shared
+      - /mnt/storage/media/christmas:/data/christmas
+      - /mnt/storage/media/kids:/data/kids
+      #- kids_movies:/data/kids
+      - /mnt/storage/media/music:/data/music
+      - /mnt/storage/tmp:/transcode
+      - /mnt/storage/appdata/docker/shared:/shared
     network_mode: host
     restart: always
 #    ports:
