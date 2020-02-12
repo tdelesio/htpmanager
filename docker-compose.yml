@@ -130,9 +130,9 @@ services:
       - complete_downloads:/config/Downloads
       - incomplete_downloads:/config/incomplete
       - shared:/shared
-#    ports:
+    ports:
       - 8080:8080
-#      - 9090:9090
+      - 9090:9090
     restart: always
     networks:
     - traefik_proxy
