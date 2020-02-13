@@ -125,10 +125,10 @@ services:
     container_name: sabnzbd
     volumes:
     #why does sabnzbd need access to comics?
-      - comics:/comics
+      # - comics:/comics
       - /mnt/storage/appdata/sabnzbd/config:/config
-      - complete_downloads:/config/Downloads
-      - incomplete_downloads:/config/incomplete
+      - /mnt/storage/downloads/complete:/downloads
+      - /mnt/storage/downloads/incomplete:/incomplete-downloads
       - shared:/shared
     ports:
       - 8080:8080
@@ -202,11 +202,9 @@ services:
       - /mnt/storage/media/tv:/data/tvshows
       - /mnt/storage/media/home_movies:/data/home_movies
       - /mnt/storage/media/photos:/data/photos
-#      - movies:/data/movies
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/media/christmas:/data/christmas
       - /mnt/storage/media/kids:/data/kids
-      #- kids_movies:/data/kids
       - /mnt/storage/media/music:/data/music
       - /mnt/storage/tmp:/transcode
       - /mnt/storage/appdata/docker/shared:/shared
@@ -282,8 +280,9 @@ services:
       - sabnzbd
     volumes:
       - /mnt/storage/appdata/sonarr:/config
-      - tv:/tv
-      - complete_downloads:/config/Downloads
+      - /mnt/storage/media/tv:/tv
+      - /mnt/storage/downloads/complete:/downloads
+      # - complete_downloads:/config/Downloads
       - shared:/shared
 #       - /mnt/storage/media/tv_import:/tv_import
 #    ports:
