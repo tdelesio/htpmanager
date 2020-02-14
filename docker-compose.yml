@@ -450,6 +450,8 @@ services:
 #    - movies:/movies
 #    - complete_downloads:/downloads
     - /mnt/storage/media/movies:/movies
+    - /mnt/storage/media/kids:/kids
+    - /mnt/storage/media/christmas:/christmas
     - /mnt/storage/downloads/complete:/downloads
     - shared:/shared
     ports:
