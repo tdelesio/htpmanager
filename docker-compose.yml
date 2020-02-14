@@ -164,7 +164,7 @@ services:
     container_name: hydra
     volumes:
       - /mnt/storage/appdata/hydra/config:/config
-      - complete_downloads:/downloads
+      - /mnt/storage/downloads/complete:/downloads
       - shared:/shared
 #    ports:
 #      - 5075:5075
@@ -322,7 +322,7 @@ services:
 #      - 5299:5299
     volumes:
       - /mnt/storage/appdata/lazylibrarian:/config
-      - complete_downloads:/downloads
+      - /mnt/storage/downloads/complete:/downloads
       - books:/books
       - shared:/shared
     restart:
@@ -447,8 +447,10 @@ services:
     - UMASK_SET=022 #optional
     volumes:
     - /mnt/storage/appdata/radarr:/config
-    - movies:/movies
-    - complete_downloads:/downloads
+#    - movies:/movies
+#    - complete_downloads:/downloads
+    - /mnt/storage/media/movies:/movies
+    - /mnt/storage/downloads/complete:/downloads
     - shared:/shared
     ports:
     - 7878:7878
