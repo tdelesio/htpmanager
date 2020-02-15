@@ -323,7 +323,7 @@ services:
     volumes:
       - /mnt/storage/appdata/lazylibrarian:/config
       - /mnt/storage/downloads/complete:/downloads
-      - books:/books
+      - /mnt/storage/media/books:/books
       - shared:/shared
     restart:
       always
