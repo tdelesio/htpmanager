@@ -67,6 +67,7 @@ services:
   portainer:
     image: portainer/portainer
     container_name: portainer
+    command: --no-auth
 #    ports:
 #    - 9000:9000
     volumes:
