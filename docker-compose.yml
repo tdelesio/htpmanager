@@ -144,8 +144,8 @@ services:
     #why does sabnzbd need access to comics?
       # - comics:/comics
       - /mnt/storage/appdata/sabnzbd/config:/config
-      - /mnt/storage/downloads/complete:/downloads
-      - /mnt/storage/downloads/incomplete:/incomplete-downloads
+      - /mnt/storage/appdata/downloads/complete:/downloads
+      - /mnt/storage/appdata/downloads/incomplete:/incomplete-downloads
       - shared:/shared
     ports:
       - 8080:8080
@@ -181,7 +181,7 @@ services:
     container_name: hydra
     volumes:
       - /mnt/storage/appdata/hydra/config:/config
-      - /mnt/storage/downloads/complete:/downloads
+      - /mnt/storage/appdata/downloads/complete:/downloads
       - shared:/shared
 #    ports:
 #      - 5075:5075
@@ -299,7 +299,7 @@ services:
     volumes:
       - /mnt/storage/appdata/sonarr:/config
       - /mnt/storage/media/tv:/tv
-      - /mnt/storage/downloads/complete:/downloads
+      - /mnt/storage/appdata/downloads/complete:/downloads
       # - complete_downloads:/config/Downloads
       - shared:/shared
 #       - /mnt/storage/media/tv_import:/tv_import
@@ -340,7 +340,7 @@ services:
 #      - 5299:5299
     volumes:
       - /mnt/storage/appdata/lazylibrarian:/config
-      - /mnt/storage/downloads/complete:/downloads
+      - /mnt/storage/appdata/downloads/complete:/downloads
       - /mnt/storage/media/books/ebooks:/books
       - shared:/shared
     restart:
@@ -389,6 +389,10 @@ services:
     image: netdata/netdata
 #    ports:
 #      - 19999:19999
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
     cap_add:
       - SYS_PTRACE
     security_opt:
@@ -471,7 +475,7 @@ services:
     - /mnt/storage/media/kids:/kids
     - /mnt/storage/media/christmas:/christmas
     - /mnt/storage/media/4kmovies:/4kmovies
-    - /mnt/storage/downloads/complete:/downloads
+    - /mnt/storage/appdata/downloads/complete:/downloads
     - shared:/shared
     ports:
     - 7878:7878
@@ -552,12 +556,12 @@ volumes:
   complete_downloads:
     driver_opts:
       type: none
-      device: /mnt/storage/downloads/complete
+      device: /mnt/storage/appdata/downloads/complete
       o: bind
   incomplete_downloads:
     driver_opts:
       type: none
-      device: /mnt/storage/downloads/incomplete
+      device: /mnt/storage/appdata/downloads/incomplete
       o: bind
   temp_storage:
     driver_opts:
