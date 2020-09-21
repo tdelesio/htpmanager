@@ -152,7 +152,9 @@ services:
       - 9090:9090
     restart: always
     networks:
-    - traefik_proxy
+    # - traefik_proxy
+      vpn:
+        ipv4_address: 172.20.0.2
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -191,7 +193,9 @@ services:
       - PGID=${PGID}
       - TZ = ${TZ}
     networks:
-    - traefik_proxy
+    # - traefik_proxy
+      vpn:
+        ipv4_address: 172.20.0.1
     labels:
     - "traefik.enable=true"
     - "traefik.backend=hydra"
@@ -313,7 +317,9 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     networks:
-    - traefik_proxy
+    # - traefik_proxy
+      vpn:
+        ipv4_address: 172.20.0.4
     labels:
     - "traefik.enable=true"
     - "traefik.backend=sonarr"
@@ -350,7 +356,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     networks:
-    - traefik_proxy
+    # - traefik_proxy
+      vpn:
+        ipv4_address: 172.20.0.5
     labels:
     - "traefik.enable=true"
     - "traefik.backend=lazylibrarian"
@@ -477,7 +485,9 @@ services:
     - 7878:7878
     restart: unless-stopped
     networks:
-    - traefik_proxy
+    # - traefik_proxy
+      vpn:
+        ipv4_address: 172.20.0.3
     labels:
     - "traefik.enable=true"
     - "traefik.backend=couchpotato"
@@ -500,6 +510,13 @@ networks:
   traefik_proxy:
     external:
       name: traefik_proxy
+  vpn:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.20.0.0/16
+        gateway: 0.0.0.0
   default:
     driver: bridge
 
@@ -571,7 +588,7 @@ volumes:
       o: bind
 
 
-      
+
 #/mnt/storage/appdata/heimdall/config:/config
 #/mnt/storage/appdata/hydra/config:/config
 #/mnt/storage/appdata/sabnzbd/config:/config
@@ -584,7 +601,7 @@ volumes:
 #/mnt/storage/appdata/lazylibrarian:/config
 #/mnt/storage/appdata/ubooquity:/config
 #/mnt/storage/appdata/autosub:/config
-  
+
 
 #  docker run -d -p 8080:8080 -p 80:80 \
 #  -v $PWD/traefik.toml:/etc/traefik/traefik.toml \
