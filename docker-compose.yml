@@ -65,9 +65,9 @@ services:
 #portainer - docker manager
 ########################################
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer-ce
     container_name: portainer
-    command: --no-auth
+#    command: --no-auth
 #    ports:
 #    - 9000:9000
     volumes:
