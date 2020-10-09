@@ -486,10 +486,12 @@ networks:
     driver: macvlan
     driver_opts:
       parent: enp2s0
-    # ipam:
-    #   config:
-    #     - subnet: 10.0.0.0/16
-    #     - gateway: 10.0.0.1
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+          ip_range: 192.168.1.240/28
+
   # vpn:
   #   driver: bridge
   #   ipam:
