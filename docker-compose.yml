@@ -231,7 +231,9 @@ services:
       - /mnt/storage/media/music:/data/music
       - /mnt/storage/tmp:/transcode
       - /mnt/storage/appdata/docker/shared:/shared
-    network_mode: host
+    # network_mode: host
+    networks:
+      - plex_network
     restart: always
     ports:
       - 32400:32400/tcp
@@ -480,6 +482,13 @@ networks:
   traefik_proxy:
     external:
       name: traefik_proxy
+  plex_network:
+    driver: macvlan
+    driver_opts:
+      parent: enp2s0
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
   # vpn:
   #   driver: bridge
   #   ipam:
