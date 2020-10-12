@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
 
 ########################################
@@ -175,7 +175,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ = ${TZ}
+      - TZ=${TZ}
     networks:
     - traefik_proxy
       # vpn:
