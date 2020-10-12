@@ -36,8 +36,8 @@ services:
 
     # Persist data and custom configuration to the host's storage
     volumes:
-      - '/mnt/storage/appdata/pihole/config:/etc/pihole/'
-      - '/mnt/storage/appdata/pihole/dnsmasq:/etc/dnsmasq.d/'
+      - /mnt/storage/appdata/pihole/config:/etc/pihole/
+      - /mnt/storage/appdata/pihole/dnsmasq:/etc/dnsmasq.d/
     networks:
       internal:
         ipv4_address: 172.30.9.3
