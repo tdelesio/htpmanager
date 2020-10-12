@@ -43,23 +43,6 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /mnt/storage/appdata/traefik:/etc/traefik
     - /mnt/storage/appdata/docker/shared:/shared
-#  openvpn-as:
-#    image: linuxserver/openvpn-as
-#    container_name: openvpn-as
-#    cap_add:
-#    - NET_ADMIN
-#    environment:
-#    - PUID=1000
-#    - PGID=1000
-#    - TZ=Europe/London
-#    - INTERFACE=eth0 #optional
-#    volumes:
-#    - path to data:/config
-#    ports:
-#    - 943:943
-#    - 9443:9443
-#    - 1194:1194/udp
-    restart: unless-stopped
 
 ########################################
 #portainer - docker manager
@@ -231,13 +214,10 @@ services:
       - /mnt/storage/media/music:/data/music
       - /mnt/storage/tmp:/transcode
       - /mnt/storage/appdata/docker/shared:/shared
-    # network_mode: host
+    network_mode: host
     # networks:
-    #   priv_lan:
-    #       ipv4_address: 192.168.1.2
-    networks:
-      plex_network:
-         ipv4_address: 10.0.0.14
+    #   plex_network:
+    #      ipv4_address: 10.0.0.14
     restart: always
     ports:
       - 32400:32400/tcp
@@ -479,42 +459,42 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-  network_testing:
-    image: praqma/network-multitool
+  # network_testing:
+  #   image: praqma/network-multitool
+  #   networks:
+  #     plex_network:
+  #         ipv4_address: 10.0.0.13
+  cloudflared:
+    container_name: cloudflared
+    restart: unless-stopped
+    image: cloudflare/cloudflared
+    command: proxy-dns
+    environment:
+      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
+      - "TUNNEL_METRICS=0.0.0.0:49312"
+      - "TUNNEL_DNS_ADDRESS=0.0.0.0"
+      - "TUNNEL_DNS_PORT=53"
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=53
     networks:
-      plex_network:
-          ipv4_address: 10.0.0.13
-  # cloudflared:
-  #   container_name: cloudflared
-  #   restart: unless-stopped
-  #   image: cloudflare/cloudflared
-  #   command: proxy-dns
-  #   environment:
-  #     - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
-  #     - "TUNNEL_METRICS=0.0.0.0:49312"
-  #     - "TUNNEL_DNS_ADDRESS=0.0.0.0"
-  #     - "TUNNEL_DNS_PORT=53"
-  #   sysctls:
-  #     - net.ipv4.ip_unprivileged_port_start=53
-  #   networks:
-  #     priv_lan:
-  #       ipv4_address: 10.65.2.14
-  #
-  # pihole:
-  #   container_name: pihole
-  #   restart: unless-stopped
-  #   image: pihole/pihole
-  #   environment:
-  #     - "TZ=Europe/Berlin"
-  #     - "DNS1=10.65.2.14#53"
-  #     - "DNS2=no"
-  #     - "WEBPASSWORD=admin"
-  #   volumes:
-  #     - '/mnt/app-data/pihole/config:/etc/pihole/'
-  #     - '/mnt/app-data/pihole/dnsmasq:/etc/dnsmasq.d/'
-  #   networks:
-  #     priv_lan:
-  #       ipv4_address: 10.65.2.4
+      priv_lan:
+        ipv4_address: 10.0.0.11
+
+  pihole:
+    container_name: pihole
+    restart: unless-stopped
+    image: pihole/pihole
+    environment:
+      - TZ=${TZ}
+      - "DNS1=10.0.0.11#53"
+      - "DNS2=no"
+      - "WEBPASSWORD=admin"
+    volumes:
+      - '/mnt/storage/appdata/pihole/config:/etc/pihole/'
+      - '/mnt/storage/appdata/pihole/dnsmasq:/etc/dnsmasq.d/'
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.12
 
 
 
@@ -523,9 +503,6 @@ networks:
   traefik_proxy:
     external:
       name: traefik_proxy
-  priv_lan:
-    external:
-      name: priv_lan
   plex_network:
     driver: macvlan
     driver_opts:
