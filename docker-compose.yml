@@ -569,16 +569,16 @@ volumes:
       type: none
       device: /mnt/storage/media/books
       o: bind
-  complete_downloads:
-    driver_opts:
-      type: none
-      device: /mnt/storage/appdata/downloads/complete
-      o: bind
-  incomplete_downloads:
-    driver_opts:
-      type: none
-      device: /mnt/storage/appdata/downloads/incomplete
-      o: bind
+  # complete_downloads:
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/storage/appdata/downloads/complete
+  #     o: bind
+  # incomplete_downloads:
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/storage/appdata/downloads/incomplete
+  #     o: bind
   temp_storage:
     driver_opts:
       type: none
