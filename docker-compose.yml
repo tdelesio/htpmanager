@@ -231,7 +231,10 @@ services:
       - /mnt/storage/media/music:/data/music
       - /mnt/storage/tmp:/transcode
       - /mnt/storage/appdata/docker/shared:/shared
-    network_mode: host
+    # network_mode: host
+    networks:
+      priv_lan:
+          ipv4_address: 192.168.1.2
     # networks:
       # - plex_network
     restart: always
@@ -482,6 +485,9 @@ networks:
   traefik_proxy:
     external:
       name: traefik_proxy
+  priv_lan:
+    external:
+      name: priv_lan
   plex_network:
     driver: macvlan
     driver_opts:
