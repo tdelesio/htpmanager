@@ -232,11 +232,11 @@ services:
       - /mnt/storage/tmp:/transcode
       - /mnt/storage/appdata/docker/shared:/shared
     # network_mode: host
-    networks:
-      priv_lan:
-          ipv4_address: 192.168.1.2
     # networks:
-      # - plex_network
+    #   priv_lan:
+    #       ipv4_address: 192.168.1.2
+    networks:
+      - plex_network
     restart: always
     ports:
       - 32400:32400/tcp
