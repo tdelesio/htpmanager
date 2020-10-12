@@ -503,7 +503,7 @@ networks:
   traefik_proxy:
     external:
       name: traefik_proxy
-  plex_network:
+  priv_lan:
     driver: macvlan
     driver_opts:
       parent: enp2s0
