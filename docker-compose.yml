@@ -236,7 +236,8 @@ services:
     #   priv_lan:
     #       ipv4_address: 192.168.1.2
     networks:
-      - plex_network
+      plex_network:
+         ipv4_address: 10.0.0.14
     restart: always
     ports:
       - 32400:32400/tcp
@@ -482,7 +483,38 @@ services:
     image: praqma/network-multitool
     networks:
       plex_network:
-          ipv4_address: 192.168.3.2
+          ipv4_address: 10.0.0.13
+  # cloudflared:
+  #   container_name: cloudflared
+  #   restart: unless-stopped
+  #   image: cloudflare/cloudflared
+  #   command: proxy-dns
+  #   environment:
+  #     - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
+  #     - "TUNNEL_METRICS=0.0.0.0:49312"
+  #     - "TUNNEL_DNS_ADDRESS=0.0.0.0"
+  #     - "TUNNEL_DNS_PORT=53"
+  #   sysctls:
+  #     - net.ipv4.ip_unprivileged_port_start=53
+  #   networks:
+  #     priv_lan:
+  #       ipv4_address: 10.65.2.14
+  #
+  # pihole:
+  #   container_name: pihole
+  #   restart: unless-stopped
+  #   image: pihole/pihole
+  #   environment:
+  #     - "TZ=Europe/Berlin"
+  #     - "DNS1=10.65.2.14#53"
+  #     - "DNS2=no"
+  #     - "WEBPASSWORD=admin"
+  #   volumes:
+  #     - '/mnt/app-data/pihole/config:/etc/pihole/'
+  #     - '/mnt/app-data/pihole/dnsmasq:/etc/dnsmasq.d/'
+  #   networks:
+  #     priv_lan:
+  #       ipv4_address: 10.65.2.4
 
 
 
@@ -500,8 +532,8 @@ networks:
       parent: enp2s0
     ipam:
       config:
-        - subnet: 192.168.3.0/24
-          gateway: 192.168.3.1
+        - subnet: 10.0.0.0/16
+          gateway: 10.0.0.1
           # ip_range: 192.168.1.240/28
 
   # vpn:
