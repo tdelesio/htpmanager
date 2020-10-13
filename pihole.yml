@@ -18,10 +18,10 @@ services:
       - /mnt/storage/media/music:/data/music
       - /mnt/storage/tmp:/transcode
       - /mnt/storage/appdata/docker/shared:/shared
-    network_mode: host
-    # networks:
-    #   plex_network:
-    #      ipv4_address: 10.0.0.14
+    # network_mode: host
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.12
     restart: always
     ports:
       - 32400:32400/tcp
