@@ -44,7 +44,7 @@ Get Plex claim from here: https://www.plex.tv/claim/
 3.  
 chmod 600 /mnt/storage/appdata/docker/htpmanager/traefik/acme/acme.json
 
-4. 
+4.
 nano /mnt/storage/appdata/docker/htpmanager/traefik/traefik.toml
 
 EDIT the following in that file:
@@ -54,11 +54,11 @@ c. InsecureSkipVerify = true: I had to add at the beginning to allow some apps (
 d. provider = "cloudflare": Change to your DNS provider for DNS challenge.
 e. exposedbydefault = false: This will force you to use traefik.enable=true label in docker compose to put apps behind traefik.
 
-5. 
+5.
 mnt/storage/appdata/sabnzbd/config/sabnzbd.ini
 update sabnzbd.ini and add host to the white list
 
-6. 
+6.
 create docker network
 docker network create traefik_proxy
 
@@ -66,7 +66,7 @@ docker network create traefik_proxy
 create a mount for traefik and copy the /htpmanager/traefik folder to the mount.
 
 8.
-generate a acme.json file in the /traefik/acme/acme.json folder 
+generate a acme.json file in the /traefik/acme/acme.json folder
 
 If you get stuck, check out:
 https://www.smarthomebeginner.com/traefik-reverse-proxy-tutorial-for-docker/
@@ -75,7 +75,15 @@ I used this site heavily to get it running.
 
 
 9.  Spotifyd
-create a file in /etc/spotify.config 
+create a file in /etc/spotify.config
 
 [global]
 backend=pulseaudio
+
+
+pihole
+This is running in a separate docker-compose file.  To start it:
+
+docker-compose -f pihole.yml -p pihole up -d
+
+You also need to pull up the pihole admin console and change the DNS to listen to all interfaces.  Then you need to go into the router and point DNS to the pihole server ip.
