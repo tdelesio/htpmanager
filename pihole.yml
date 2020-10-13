@@ -76,6 +76,7 @@ services:
 
       # Explicitly disable a second DNS server, otherwise Pi-hole uses Google
       - "DNS2=no"
+      - "DNSMASQ_LISTENING=all"
 
     # Persist data and custom configuration to the host's storage
     volumes:
