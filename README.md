@@ -123,11 +123,11 @@ You need to also edit the traefik.toml and edi the following:
 ```
 nano /mnt/storage/appdata/docker/htpmanager/traefik/traefik.toml
 ```
-a. email@domain.com: with your email.
-b. EXAMPLE.COM: with your private domain name.
-c. InsecureSkipVerify = true: I had to add at the beginning to allow some apps (eg. UniFi controller) be accessible through Traefik.
-d. provider = "cloudflare": Change to your DNS provider for DNS challenge.
-e. exposedbydefault = false: This will force you to use traefik.enable=true label in docker compose to put apps behind traefik.
+1. email@domain.com: with your email.
+1. EXAMPLE.COM: with your private domain name.
+1. InsecureSkipVerify = true: I had to add at the beginning to allow some apps (eg. UniFi controller) be accessible through Traefik.
+1. provider = "cloudflare": Change to your DNS provider for DNS challenge.
+1. exposedbydefault = false: This will force you to use traefik.enable=true label in docker compose to put apps behind traefik.
 
 For security reasons, you don't wants the traefik under the git repo.  The one I have is the base default.  You need to copy that folder to another directory.
 
