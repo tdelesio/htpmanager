@@ -3,7 +3,7 @@
 This is my setup for my home automation entertainment center.  I have docker running on a headless [micropc](https://www.amazon.com/dp/B00JQYJ8B8/?coliid=I13SMIGSEFBZRV&colid=A0LAA40HO9AX&psc=0&ref_=lv_ov_lig_dp_it) running Ubuntux linux and all my data on a [Synology DS 1515+](https://www.amazon.com/dp/B00PTGQJL4/?coliid=I2IHNIZG3QSPGN&colid=A0LAA40HO9AX&psc=0&ref_=lv_ov_lig_dp_it) NAS running RAID 5.  I use the unifi suit of networking gear and have a bunch of WAPs around the house.  You can see my setup for that in my other repo.  I use docker-compose to run the containers and they are broken up into two separate files.  They are split into two separate files based on the network requirements.  Running Plex and PiHole I want them to have dedicated IP addresses on the network (vs having a port on the host) so these are broken out into a separate file.  The containres that are running are:
 
 
-##Main File (docker-compose.yml):
+## Main File (docker-compose.yml):
 * Traefik: Reverse proxy that sits in front of all the containers and allows me to map subdomains to ports.
 * portainer:  Container admin software to simplify the managemetn and problem solving of the containres
 * Organizr: Landing page/portal for all the subapps.
@@ -15,7 +15,7 @@ This is my setup for my home automation entertainment center.  I have docker run
 * Radarr - Movie management and downloader
 
 
-##Separate Network File (called pihole.yml right now):
+## Separate Network File (called pihole.yml right now):
 * Plex - Media Management and player
 * Cloudflared: Proxy DNS server
 * Pihole: Network wide Ad killer.  
