@@ -70,7 +70,7 @@ the docker-compose file and modify the volumes at the end of the file.  For NFS,
 
 ![NAS NFS](/nas_nfs.png)
 
-##Traefik Setup
+## Traefik Setup
 
 Traefik is a reverse proxy that sits in front of all the containres.  All the data routes through it to get to the containers.  With that in mind, we need to configure traefik to map subdomains to ports/containers.  There is some set up with that as well.
 
@@ -80,7 +80,7 @@ sudo touch /mnt/storage/appdata/docker/shared/.htpasswd
 nano /mnt/storage/appdata/docker/shared/.htpasswd
 ```
 
-##Docker Compose
+## Docker Compose
 
 You will need to install docker and docker-compose on the linux box.  You can Google that for yourself and is outside of the scope of this.  I put my docker-compose files in the path:
 
@@ -88,11 +88,11 @@ You will need to install docker and docker-compose on the linux box.  You can Go
 /mnt/storage/appdata/docker/
 ```
 
-###Clone Repo and Edit docker-compose file
+### Clone Repo and Edit docker-compose file
 
 I did a git clone at that root directory and it creates a htpmanager folder.  You can cd into that directory.  Edit the docker-compose file to map it correctly to your media mounts.  
 
-###Environment
+### Environment
 Add the following to the /etc/environment file
 EDIT:  I couldn't get the environment file to work.  As an alt, I created an .env in root of this repo.  This seamed to work great.  Get Plex claim from here: https://www.plex.tv/claim/
 
@@ -106,7 +106,7 @@ CLOUDFLARE_API_KEY=XXXXXXXXXXXX
 PLEX_CLAIM=
 ```
 
-###Traefik
+### Traefik
 You need to create a acme.json file in the /traefik/acme/acme.json folder
 
 If you get stuck, check out:
@@ -135,23 +135,23 @@ For security reasons, you don't wants the traefik under the git repo.  The one I
 cp -r /mnt/storage/appdata/docker/htpmanager/traefik /mnt/storage/appdata/traefik
 ```
 
-###sabnzbd
+### sabnzbd
 You need to add the traefik domain to the whitelist of sabnzbd.  Otherwise, you won't be able to access it.
 ```
 nano mnt/storage/appdata/sabnzbd/config/sabnzbd.ini
 ```
 
-###Traefik network
+### Network
 You need to manually create a network.
 
 ```
 docker network create traefik_proxy
 ```
 
-###PiHole
+### PiHole
 You also need to pull up the pihole admin console and change the DNS to listen to all interfaces.  Then you need to go into the router and point DNS to the pihole server ip.  You probably only need to do this if your linux box has multiple NICs.
 
-###Run and Test
+### Run and Test
 Once you are happy with your docker-compose files, you can start the containers.  You can do this by doing:
 
 ```
