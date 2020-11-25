@@ -338,7 +338,7 @@ services:
 
 ########################################
   readarr:
-    image: hotio/readarr:0.1.0.320
+    image: hotio/readarr:nightly
     container_name: readarr
     environment:
     - PUID=${PUID}
