@@ -2,7 +2,7 @@ version: "3.7"
 services:
 
 ########################################
-#traefik - reverse proxy
+#                 ADMIN
 ########################################
   traefik:
     hostname: traefik
@@ -45,8 +45,6 @@ services:
     - /mnt/storage/appdata/docker/shared:/shared
 
 ########################################
-#portainer - docker manager
-########################################
   portainer:
     image: portainer/portainer-ce
     container_name: portainer
@@ -85,7 +83,55 @@ services:
   #    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
 
 ########################################
-#oranizr
+  watchtower:
+    container_name: watchtower
+    restart: always
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 0 4 * * *" --cleanup
+    networks:
+    - traefik_proxy
+
+########################################
+  netdata:
+    image: netdata/netdata
+#    ports:
+#      - 19999:19999
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - shared:/shared
+      - /mnt/storage/appdata/netdata:/etc/netdata
+    networks:
+#    - default
+    - traefik_proxy
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=netdata"
+    - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
+    - "traefik.port=19999"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
+    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+
 ########################################
   organizr:
     container_name: organizr
@@ -118,8 +164,12 @@ services:
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=true"
 
+
+
+
+
 ########################################
-#sabnzbd - downloader
+#          downloader, indexers
 ########################################
   sabnzbd:
     image: linuxserver/sabnzbd
@@ -160,45 +210,6 @@ services:
     - "traefik.frontend.headers.frameDeny=false"
 
 ########################################
-#nzbhydra - aggregates indxers
-########################################
-  # nzbhydra:
-  #   image: linuxserver/hydra
-  #   container_name: hydra
-  #   volumes:
-  #     - /mnt/storage/appdata/hydra1_bak/config:/config
-  #     - /mnt/storage/appdata/downloads/complete:/downloads
-  #     - shared:/shared
-  #   ports:
-  #     - 5075:5075
-  #   restart: always
-  #   environment:
-  #     - PUID=${PUID}
-  #     - PGID=${PGID}
-  #     - TZ=${TZ}
-    # networks:
-    # - traefik_proxy
-      # vpn:
-      #   ipv4_address: 172.20.0.1
-    # labels:
-    # - "traefik.enable=true"
-    # - "traefik.backend=hydra"
-    # - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
-    # - "traefik.port=5075"
-    # - "traefik.docker.network=traefik_proxy"
-    # - "traefik.frontend.headers.SSLRedirect=true"
-    # - "traefik.frontend.headers.STSSeconds=315360000"
-    # - "traefik.frontend.headers.browserXSSFilter=true"
-    # - "traefik.frontend.headers.contentTypeNosniff=true"
-    # - "traefik.frontend.headers.forceSTSHeader=true"
-    # - "traefik.frontend.headers.SSLHost=delesio.com"
-    # - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    # - "traefik.frontend.headers.STSPreload=true"
-    # - "traefik.frontend.headers.frameDeny=false"
-
-########################################
-#nzbhydra - aggregates indxers
-########################################
   nzbhydra2:
     image: linuxserver/nzbhydra2
     container_name: nzbhydra2
@@ -220,7 +231,7 @@ services:
     labels:
     - "traefik.enable=true"
     - "traefik.backend=hydra2"
-    - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
+    - "traefik.frontend.rule=Host:search.${DOMAINNAME}"
     - "traefik.port=5076"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -234,48 +245,11 @@ services:
     - "traefik.frontend.headers.frameDeny=false"
 
 
-########################################
-#tautulli - plex stats
-########################################
-#   tautulli:
-#     image: linuxserver/tautulli
-#     container_name: tautulli
-#     depends_on:
-#       - plex
-#     volumes:
-#       - /mnt/storage/appdata/plexpy:/config
-#       - /mnt/storage/appdata/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
-#       - shared:/shared
-# #    ports:
-# #      - 8181:8181
-#     links:
-#       - plex
-#     restart: always
-#     networks:
-#     - traefik_proxy
-#     environment:
-#       - PUID=${PUID}
-#       - PGID=${PGID}
-#       - TZ=${TZ}
-#     labels:
-#     - "traefik.enable=true"
-#     - "traefik.backend=tautulli"
-#     - "traefik.frontend.rule=Host:stats.${DOMAINNAME}"
-#     #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /tautulli"
-#     - "traefik.port=8181"
-#     - "traefik.docker.network=traefik_proxy"
-#     - "traefik.frontend.headers.SSLRedirect=true"
-#     - "traefik.frontend.headers.STSSeconds=315360000"
-#     - "traefik.frontend.headers.browserXSSFilter=true"
-#     - "traefik.frontend.headers.contentTypeNosniff=true"
-#     - "traefik.frontend.headers.forceSTSHeader=true"
-#     - "traefik.frontend.headers.SSLHost=delesio.com"
-#     - "traefik.frontend.headers.STSIncludeSubdomains=true"
-#     - "traefik.frontend.headers.STSPreload=true"
-#     - "traefik.frontend.headers.frameDeny=false"
+
+
 
 ########################################
-#sonarr - tv downloader
+#         Content Managers
 ########################################
   sonarr:
     image: linuxserver/sonarr
@@ -305,7 +279,7 @@ services:
     labels:
     - "traefik.enable=true"
     - "traefik.backend=sonarr"
-    - "traefik.frontend.rule=Host:sonarr.${DOMAINNAME}"
+    - "traefik.frontend.rule=Host:tv.${DOMAINNAME}"
     - "traefik.port=8989"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
@@ -319,101 +293,6 @@ services:
     - "traefik.frontend.headers.frameDeny=false"
 
 ########################################
-#lazylibrarian - book/comic manager
-########################################
-  lazylibrarian:
-    image: linuxserver/lazylibrarian
-    container_name: lazylibrarian
-#    ports:
-#      - 5299:5299
-    volumes:
-      - /mnt/storage/appdata/lazylibrarian:/config
-      - /mnt/storage/appdata/downloads/complete:/downloads
-      - /mnt/storage/media/books/ebooks:/books
-      - shared:/shared
-    restart:
-      always
-    environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
-    networks:
-    - traefik_proxy
-      # vpn:
-      #   ipv4_address: 172.20.0.5
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=lazylibrarian"
-    - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
-    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /books"
-    - "traefik.port=5299"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
-#    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
-
-########################################
-#watchtower - docker image updater
-########################################
-  watchtower:
-    container_name: watchtower
-    restart: always
-    image: v2tec/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --schedule "0 0 4 * * *" --cleanup
-    networks:
-    - traefik_proxy
-
-########################################
-#netdata - metrics for apps
-########################################
-  netdata:
-    image: netdata/netdata
-#    ports:
-#      - 19999:19999
-    environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
-    cap_add:
-      - SYS_PTRACE
-    security_opt:
-      - apparmor:unconfined
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - shared:/shared
-      - /mnt/storage/appdata/netdata:/etc/netdata
-    networks:
-#    - default
-    - traefik_proxy
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=netdata"
-    - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
-    - "traefik.port=19999"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
-    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
-
-
   radarr:
     image: linuxserver/radarr
     container_name: radarr
@@ -432,6 +311,8 @@ services:
     - /mnt/storage/media/4kmovies:/4kmovies
     - /mnt/storage/appdata/downloads/complete:/downloads
     - shared:/shared
+    links:
+      - sabnzbd
     ports:
     - 7878:7878
     restart: unless-stopped
@@ -454,11 +335,86 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-  # network_testing:
-  #   image: praqma/network-multitool
-  #   networks:
-  #     plex_network:
-  #         ipv4_address: 10.0.0.13
+
+  readarr:
+    image: hotio/readarr
+    container_name: readarr
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - UMASK_SET=002 #optional
+    volumes:
+    - /mnt/storage/appdata/readarr:/config
+    - /mnt/storage/appdata/downloads/complete:/downloads
+    - /mnt/storage/media/books/ebooks:/books
+    links:
+      - sabnzbd
+    ports:
+    - 8787:8787
+    restart: unless-stopped
+    networks:
+    - traefik_proxy
+      # vpn:
+      #   ipv4_address: 172.20.0.3
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=couchpotato"
+    - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
+    - "traefik.port=8787"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
+
+########################################
+
+
+########################################
+#   lazylibrarian:
+#     image: linuxserver/lazylibrarian
+#     container_name: lazylibrarian
+# #    ports:
+# #      - 5299:5299
+#     volumes:
+#       - /mnt/storage/appdata/lazylibrarian:/config
+#       - /mnt/storage/appdata/downloads/complete:/downloads
+#       - /mnt/storage/media/books/ebooks:/books
+#       - shared:/shared
+#     restart:
+#       always
+#     environment:
+#       - TZ=${TZ}
+#       - PUID=${PUID}
+#       - PGID=${PGID}
+#     networks:
+#     - traefik_proxy
+#       # vpn:
+#       #   ipv4_address: 172.20.0.5
+#     labels:
+#     - "traefik.enable=true"
+#     - "traefik.backend=lazylibrarian"
+#     - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
+#     #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /books"
+#     - "traefik.port=5299"
+#     - "traefik.docker.network=traefik_proxy"
+#     - "traefik.frontend.headers.SSLRedirect=true"
+#     - "traefik.frontend.headers.STSSeconds=315360000"
+#     - "traefik.frontend.headers.browserXSSFilter=true"
+#     - "traefik.frontend.headers.contentTypeNosniff=true"
+#     - "traefik.frontend.headers.forceSTSHeader=true"
+#     - "traefik.frontend.headers.SSLHost=delesio.com"
+#     - "traefik.frontend.headers.STSIncludeSubdomains=true"
+#     - "traefik.frontend.headers.STSPreload=true"
+#     - "traefik.frontend.headers.frameDeny=false"
+# #    - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+
 
 
 networks:
@@ -514,16 +470,7 @@ volumes:
       type: none
       device: /mnt/storage/media/books
       o: bind
-  # complete_downloads:
-  #   driver_opts:
-  #     type: none
-  #     device: /mnt/storage/appdata/downloads/complete
-  #     o: bind
-  # incomplete_downloads:
-  #   driver_opts:
-  #     type: none
-  #     device: /mnt/storage/appdata/downloads/incomplete
-  #     o: bind
+
   temp_storage:
     driver_opts:
       type: none

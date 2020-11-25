@@ -53,6 +53,45 @@ services:
     - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
     - DEVICE_NAME=docker
 
+#######################################
+#tautulli - plex stats
+#######################################
+  tautulli:
+    image: linuxserver/tautulli
+    container_name: tautulli
+    depends_on:
+      - plex
+    volumes:
+      - /mnt/storage/appdata/plexpy:/config
+      - /mnt/storage/appdata/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
+      - shared:/shared
+#    ports:
+#      - 8181:8181
+    links:
+      - plex
+    restart: always
+    networks:
+    - traefik_proxy
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=tautulli"
+    - "traefik.frontend.rule=Host:stats.${DOMAINNAME}"
+    #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefix: /tautulli"
+    - "traefik.port=8181"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
 
   unifi-video2:
     container_name: unifivideo2
@@ -222,6 +261,48 @@ heimdall:
       - PGID=${PGID}
     restart:
       always
+
+#######################################
+nzbhydra - aggregates indxers
+#######################################
+  nzbhydra:
+    image: linuxserver/hydra
+    container_name: hydra
+    volumes:
+      - /mnt/storage/appdata/hydra1_bak/config:/config
+      - /mnt/storage/appdata/downloads/complete:/downloads
+      - shared:/shared
+    ports:
+      - 5075:5075
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+    - traefik_proxy
+      vpn:
+        ipv4_address: 172.20.0.1
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=hydra"
+    - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
+    - "traefik.port=5075"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
+
+#######################################
+nzbhydra - aggregates indxers
+#######################################
+
   syncloung_server:
     image: starbix/synclounge:nginx
     container_name: plextogether_nginx
@@ -322,4 +403,3 @@ heimdall:
   -e SPOTWEB_DB_USER=spotweb \
   -e SPOTWEB_DB_PASS=spotweb \
   jgeusebroek/spotweb
-
