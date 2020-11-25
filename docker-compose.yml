@@ -176,25 +176,25 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-    networks:
-    - traefik_proxy
+    # networks:
+    # - traefik_proxy
       # vpn:
       #   ipv4_address: 172.20.0.1
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=hydra"
-    - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
-    - "traefik.port=5075"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
+    # labels:
+    # - "traefik.enable=true"
+    # - "traefik.backend=hydra"
+    # - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
+    # - "traefik.port=5075"
+    # - "traefik.docker.network=traefik_proxy"
+    # - "traefik.frontend.headers.SSLRedirect=true"
+    # - "traefik.frontend.headers.STSSeconds=315360000"
+    # - "traefik.frontend.headers.browserXSSFilter=true"
+    # - "traefik.frontend.headers.contentTypeNosniff=true"
+    # - "traefik.frontend.headers.forceSTSHeader=true"
+    # - "traefik.frontend.headers.SSLHost=delesio.com"
+    # - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    # - "traefik.frontend.headers.STSPreload=true"
+    # - "traefik.frontend.headers.frameDeny=false"
 
 ########################################
 #nzbhydra - aggregates indxers
@@ -220,7 +220,7 @@ services:
     labels:
     - "traefik.enable=true"
     - "traefik.backend=hydra"
-    - "traefik.frontend.rule=Host:hydra2.${DOMAINNAME}"
+    - "traefik.frontend.rule=Host:search.${DOMAINNAME}"
     - "traefik.port=5075"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
