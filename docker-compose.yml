@@ -322,7 +322,7 @@ services:
       #   ipv4_address: 172.20.0.3
     labels:
     - "traefik.enable=true"
-    - "traefik.backend=couchpotato"
+    - "traefik.backend=radarr"
     - "traefik.frontend.rule=Host:movies.${DOMAINNAME}"
     - "traefik.port=7878"
     - "traefik.docker.network=traefik_proxy"
@@ -360,7 +360,7 @@ services:
       #   ipv4_address: 172.20.0.3
     labels:
     - "traefik.enable=true"
-    - "traefik.backend=couchpotato"
+    - "traefik.backend=readarr"
     - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
     - "traefik.port=8787"
     - "traefik.docker.network=traefik_proxy"
