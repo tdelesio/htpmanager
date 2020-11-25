@@ -422,6 +422,37 @@ services:
   #   networks:
   #     plex_network:
   #         ipv4_address: 10.0.0.13
+  speedtest:
+    image: henrywhitaker3/speedtest-tracker
+    container_name: speedtest
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=${TZ}
+      - OOKLA_EULA_GDPR=true
+    volumes:
+     - "/mnt/storage/appdata/speedtest:/config"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "200k"
+    labels:
+     - traefik.enable=true
+     - traefik.backend=speedtest
+     - "traefik.frontend.rule=Host:speedtest.${DOMAINNAME}"
+     - traefik.port=80
+     - traefik.docker.network=traefik_proxy
+     - traefik.frontend.headers.SSLRedirect=true
+     - traefik.frontend.headers.STSSeconds=315360000
+     - traefik.frontend.headers.browserXSSFilter=true
+     - traefik.frontend.headers.contentTypeNosniff=true
+     - traefik.frontend.headers.forceSTSHeader=true
+     - traefik.frontend.headers.SSLHost=frost.haus
+     - traefik.frontend.headers.STSIncludeSubdomains=true
+     - traefik.frontend.headers.STSPreload=true
+     - traefik.frontend.headers.frameDeny=false
 
 networks:
   traefik_proxy:
