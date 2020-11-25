@@ -426,10 +426,10 @@ services:
     image: henrywhitaker3/speedtest-tracker
     container_name: speedtest
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - OOKLA_EULA_GDPR=true
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - OOKLA_EULA_GDPR=true
     volumes:
      - "/mnt/storage/appdata/speedtest:/config"
     restart: unless-stopped
