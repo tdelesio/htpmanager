@@ -374,41 +374,59 @@ services:
     # - "traefik.frontend.headers.STSPreload=true"
     # - "traefik.frontend.headers.frameDeny=false"
 
-########################################
-  opds:
-    image: mitcdh/cops
-    container_name: opds
+  calibre:
+    image: ghcr.io/linuxserver/calibre
+    container_name: calibre
     environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
-    - COPS_TITLE="Cineplex Books"
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      # - GUAC_USER=abc #optional
+      # - GUAC_PASS=900150983cd24fb0d6963f7d28e17f72 #optional
+      # - UMASK_SET=022 #optional
+      # - CLI_ARGS= #optional
     volumes:
-    - /mnt/storage/media/books/ebooks:/books
-    links:
-      - sabnzbd
+      - /mnt/storage/appdata/calibre:/config
     ports:
-    - 2015:2015
+      # - 8080:8080
+      - 8081:8081
     restart: unless-stopped
-    networks:
-    - traefik_proxy
-      # vpn:
-      #   ipv4_address: 172.20.0.3
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=opds"
-    - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
-    - "traefik.port=2015"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
+
+########################################
+  # opds:
+  #   image: mitcdh/cops
+  #   container_name: opds
+  #   environment:
+  #   - PUID=${PUID}
+  #   - PGID=${PGID}
+  #   - TZ=${TZ}
+  #   - COPS_TITLE="Cineplex Books"
+  #   volumes:
+  #   - /mnt/storage/media/books/ebooks:/books
+  #   links:
+  #     - sabnzbd
+  #   ports:
+  #   - 2015:2015
+  #   restart: unless-stopped
+  #   networks:
+  #   - traefik_proxy
+  #     # vpn:
+  #     #   ipv4_address: 172.20.0.3
+  #   labels:
+  #   - "traefik.enable=true"
+  #   - "traefik.backend=opds"
+  #   - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
+  #   - "traefik.port=2015"
+  #   - "traefik.docker.network=traefik_proxy"
+  #   - "traefik.frontend.headers.SSLRedirect=true"
+  #   - "traefik.frontend.headers.STSSeconds=315360000"
+  #   - "traefik.frontend.headers.browserXSSFilter=true"
+  #   - "traefik.frontend.headers.contentTypeNosniff=true"
+  #   - "traefik.frontend.headers.forceSTSHeader=true"
+  #   - "traefik.frontend.headers.SSLHost=delesio.com"
+  #   - "traefik.frontend.headers.STSIncludeSubdomains=true"
+  #   - "traefik.frontend.headers.STSPreload=true"
+  #   - "traefik.frontend.headers.frameDeny=false"
 
 ########################################
 #   lazylibrarian:
