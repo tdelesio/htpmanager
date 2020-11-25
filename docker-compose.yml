@@ -221,7 +221,7 @@ services:
     - "traefik.enable=true"
     - "traefik.backend=hydra2"
     - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
-    - "traefik.port=5075"
+    - "traefik.port=5076"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
     - "traefik.frontend.headers.STSSeconds=315360000"
