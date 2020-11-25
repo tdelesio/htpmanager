@@ -169,8 +169,8 @@ services:
       - /mnt/storage/appdata/hydra1_bak/config:/config
       - /mnt/storage/appdata/downloads/complete:/downloads
       - shared:/shared
-   ports:
-     - 5075:5075
+    ports:
+      - 5075:5075
     restart: always
     environment:
       - PUID=${PUID}
@@ -206,8 +206,8 @@ services:
       - /mnt/storage/appdata/hydra2/config:/config
       - /mnt/storage/appdata/downloads/complete:/downloads
       - shared:/shared
-   ports:
-     - 5076:5075
+    ports:
+      - 5076:5075
     restart: always
     environment:
       - PUID=${PUID}
