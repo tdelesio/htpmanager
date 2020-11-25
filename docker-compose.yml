@@ -252,7 +252,7 @@ services:
 #         Content Managers
 ########################################
   sonarr:
-    image: linuxserver/sonarr:nightly
+    image: linuxserver/sonarr:0.1.0.320
     container_name: sonarr
     depends_on:
       - sabnzbd
