@@ -335,45 +335,45 @@ services:
     - "traefik.frontend.headers.STSIncludeSubdomains=true"
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
-  # 
-  # readarr:
-  #   image: hotio/readarr0.1.0.320
-  #   container_name: readarr
-  #   environment:
-  #   - PUID=${PUID}
-  #   - PGID=${PGID}
-  #   - TZ=${TZ}
-  #   - UMASK_SET=002 #optional
-  #   volumes:
-  #   - /mnt/storage/appdata/readarr:/config
-  #   - /mnt/storage/appdata/downloads/complete:/downloads
-  #   - /mnt/storage/media/books/ebooks:/books
-  #   links:
-  #     - sabnzbd
-  #   ports:
-  #   - 8787:8787
-  #   restart: unless-stopped
-  #   networks:
-  #   - traefik_proxy
-  #     # vpn:
-  #     #   ipv4_address: 172.20.0.3
-  #   labels:
-  #   - "traefik.enable=true"
-  #   - "traefik.backend=couchpotato"
-  #   - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
-  #   - "traefik.port=8787"
-  #   - "traefik.docker.network=traefik_proxy"
-  #   - "traefik.frontend.headers.SSLRedirect=true"
-  #   - "traefik.frontend.headers.STSSeconds=315360000"
-  #   - "traefik.frontend.headers.browserXSSFilter=true"
-  #   - "traefik.frontend.headers.contentTypeNosniff=true"
-  #   - "traefik.frontend.headers.forceSTSHeader=true"
-  #   - "traefik.frontend.headers.SSLHost=delesio.com"
-  #   - "traefik.frontend.headers.STSIncludeSubdomains=true"
-  #   - "traefik.frontend.headers.STSPreload=true"
-  #   - "traefik.frontend.headers.frameDeny=false"
 
 ########################################
+  readarr:
+    image: hotio/readarr:0.1.0.320
+    container_name: readarr
+    environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - UMASK_SET=002 #optional
+    volumes:
+    - /mnt/storage/appdata/readarr:/config
+    - /mnt/storage/appdata/downloads/complete:/downloads
+    - /mnt/storage/media/books/ebooks:/books
+    links:
+      - sabnzbd
+    ports:
+    - 8787:8787
+    restart: unless-stopped
+    networks:
+    - traefik_proxy
+      # vpn:
+      #   ipv4_address: 172.20.0.3
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=couchpotato"
+    - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
+    - "traefik.port=8787"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
+
 
 
 ########################################
