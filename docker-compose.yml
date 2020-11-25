@@ -207,7 +207,7 @@ services:
       - /mnt/storage/appdata/downloads/complete:/downloads
       - shared:/shared
     ports:
-      - 5076:5075
+      - 5076:5076
     restart: always
     environment:
       - PUID=${PUID}
@@ -219,7 +219,7 @@ services:
       #   ipv4_address: 172.20.0.1
     labels:
     - "traefik.enable=true"
-    - "traefik.backend=hydra"
+    - "traefik.backend=hydra2"
     - "traefik.frontend.rule=Host:search.${DOMAINNAME}"
     - "traefik.port=5075"
     - "traefik.docker.network=traefik_proxy"
