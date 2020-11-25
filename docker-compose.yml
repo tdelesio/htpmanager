@@ -162,20 +162,20 @@ services:
 ########################################
 #nzbhydra - aggregates indxers
 ########################################
-  nzbhydra:
-    image: linuxserver/hydra
-    container_name: hydra
-    volumes:
-      - /mnt/storage/appdata/hydra1_bak/config:/config
-      - /mnt/storage/appdata/downloads/complete:/downloads
-      - shared:/shared
-    ports:
-      - 5075:5075
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+  # nzbhydra:
+  #   image: linuxserver/hydra
+  #   container_name: hydra
+  #   volumes:
+  #     - /mnt/storage/appdata/hydra1_bak/config:/config
+  #     - /mnt/storage/appdata/downloads/complete:/downloads
+  #     - shared:/shared
+  #   ports:
+  #     - 5075:5075
+  #   restart: always
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
     # networks:
     # - traefik_proxy
       # vpn:
@@ -220,7 +220,7 @@ services:
     labels:
     - "traefik.enable=true"
     - "traefik.backend=hydra2"
-    - "traefik.frontend.rule=Host:search.${DOMAINNAME}"
+    - "traefik.frontend.rule=Host:hydra.${DOMAINNAME}"
     - "traefik.port=5075"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
