@@ -402,7 +402,7 @@ services:
     labels:
     - "traefik.enable=true"
     - "traefik.backend=ubooquity"
-    - "traefik.frontend.rule=Host:opds.${DOMAINNAME};PathPrefix:/ubooquity/opds-books"
+    - "traefik.frontend.rule=Host:opds.${DOMAINNAME};AddPrefix:/ubooquity/opds-books"
     - "traefik.port=2202"
     - "traefik.docker.network=traefik_proxy"
     - "traefik.frontend.headers.SSLRedirect=true"
