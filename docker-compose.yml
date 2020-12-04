@@ -395,6 +395,25 @@ services:
       - 2202:2202
       - 2203:2203
     restart: unless-stopped
+    networks:
+    - traefik_proxy
+      # vpn:
+      #   ipv4_address: 172.20.0.3
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=ubooquity"
+    - "traefik.frontend.rule=Host:opds.${DOMAINNAME}"
+    - "traefik.port=2202"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
 
   # calibre:
   #   image: ghcr.io/linuxserver/calibre
