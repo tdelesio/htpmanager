@@ -374,23 +374,45 @@ services:
     # - "traefik.frontend.headers.STSPreload=true"
     # - "traefik.frontend.headers.frameDeny=false"
 
-  calibre:
-    image: ghcr.io/linuxserver/calibre
-    container_name: calibre
+  ubooquity:
+    image: ghcr.io/linuxserver/ubooquity
+    container_name: ubooquity
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
-      # - GUAC_USER=abc #optional
-      # - GUAC_PASS=900150983cd24fb0d6963f7d28e17f72 #optional
-      # - UMASK_SET=022 #optional
-      # - CLI_ARGS= #optional
+      - TZ=${TZ}
+      # - MAXMEM=<maxmem>
     volumes:
-      - /mnt/storage/appdata/calibre:/config
+    - /mnt/storage/appdata/ubooquity:/config
+    # - /mnt/storage/appdata/downloads/complete:/downloads
+    - /mnt/storage/media/books/ebooks:/books
+      #
+      # - <path to data>:/config
+      # - <path to books>:/books
+      # - <path to comics>:/comics
+      # - <path to raw files>:/files
     ports:
-      # - 8080:8080
-      - 8081:8081
+      - 2202:2202
+      - 2203:2203
     restart: unless-stopped
+
+  # calibre:
+  #   image: ghcr.io/linuxserver/calibre
+  #   container_name: calibre
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/London
+  #     # - GUAC_USER=abc #optional
+  #     # - GUAC_PASS=900150983cd24fb0d6963f7d28e17f72 #optional
+  #     # - UMASK_SET=022 #optional
+  #     # - CLI_ARGS= #optional
+  #   volumes:
+  #     - /mnt/storage/appdata/calibre:/config
+  #   ports:
+  #     # - 8080:8080
+  #     - 8081:8081
+  #   restart: unless-stopped
 
 ########################################
   # opds:
