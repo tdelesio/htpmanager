@@ -214,7 +214,7 @@ services:
     image: linuxserver/nzbhydra2
     container_name: nzbhydra2
     volumes:
-      - /mnt/storage/appdata/hydra2/config:/config
+      - /mnt/storage/appdata/hydra/config:/config
       - /mnt/storage/appdata/downloads/complete:/downloads
       - shared:/shared
     ports:
