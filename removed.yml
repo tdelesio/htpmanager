@@ -388,6 +388,41 @@ nzbhydra - aggregates indxers
   - PGID=${PGID}
   - TZ=America/New_York
 
+
+########################################
+organizr:
+  container_name: organizr
+  restart: always
+  image: lsiocommunity/organizr
+  volumes:
+    - /mnt/storage/appdata//organizr:/config
+    - shared:/shared
+  #    ports:
+  #      - "XXXX:80"
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  networks:
+    - traefik_proxy
+  labels:
+    - "traefik.enable=true"
+    - "traefik.backend=organizr"
+    - "traefik.frontend.rule=Host:${DOMAINNAME}"
+    - "traefik.port=80"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=true"
+
+
+
 #TO-DO
 #  docker pull linuxserver/qbittorrent
 #  docker pull pihole/pihole

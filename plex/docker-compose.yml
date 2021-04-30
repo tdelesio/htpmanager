@@ -1,0 +1,272 @@
+version: "3.7"
+services:
+
+  traefik:
+    hostname: traefik
+    image: traefik:v1.7.16
+    container_name: traefik
+    restart: always
+    domainname: ${DOMAINNAME}
+    networks:
+      - default
+      - traefik_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8082:8080"
+    environment:
+      - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
+      - CF_API_KEY=${CLOUDFLARE_API_KEY}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=traefik"
+      - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"
+      #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /traefik"
+      - "traefik.port=8080"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
+      - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/storage/appdata/traefik:/etc/traefik
+      - /mnt/storage/appdata/docker/shared:/shared
+
+  ########################################
+  #  #plex - media server
+  ########################################
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    volumes:
+      - /mnt/storage/appdata/plex:/config
+      - /mnt/storage/media/tv:/data/tvshows
+      - /mnt/storage/media/home_movies:/data/home_movies
+      - /mnt/storage/media/photos:/data/photos
+      - /mnt/storage/media/movies:/data/movies
+      - /mnt/storage/media/christmas:/data/christmas
+      - /mnt/storage/media/kids:/data/kids
+      - /mnt/storage/media/4kmovies:/data/4kmovies
+      - /mnt/storage/media/music:/data/music
+      - /mnt/storage/tmp:/transcode
+      - /mnt/storage/appdata/docker/shared:/shared
+     network_mode: host
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.12
+#    restart: always
+#    ports:
+      - 32400:32400/tcp
+#      - 3005:3005/tcp
+#      - 8324:8324/tcp
+#      - 32469:32469/tcp
+     # - 1900:1900/udp
+#      - 32410:32410/udp
+#      - 32412:32412/udp
+#      - 32413:32413/udp
+#      - 32414:32414/udp
+    environment:
+      - VERSION=public
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - ADVERTISE_IP="http://10.0.0.12:32400/"
+      - HOSTNAME="Docker Plex"
+      - PLEX_CLAIM=${PLEX_CLAIM}
+      - ALLOWED_NETWORKS=10.0.0.0/8
+
+  watchtower:
+    container_name: watchtower
+    restart: always
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 0 4 * * *" --cleanup
+    networks:
+      - traefik_proxy
+
+
+
+  ########################################
+  #         Content Managers
+  ########################################
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    depends_on:
+      - sabnzbd
+    volumes:
+      - /mnt/storage/appdata/sonarr:/config
+      - /mnt/storage/media/tv:/tv
+      - /mnt/storage/appdata/downloads/complete:/downloads
+      # - complete_downloads:/config/Downloads
+      - shared:/shared
+    #       - /mnt/storage/media/tv_import:/tv_import
+    #    ports:
+    #      - 8989:8989
+    links:
+      - sabnzbd
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+      - traefik_proxy
+        # vpn:
+      #   ipv4_address: 172.20.0.4
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=sonarr"
+      - "traefik.frontend.rule=Host:tv.${DOMAINNAME}"
+      - "traefik.port=8989"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+
+  ########################################
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022 #optional
+    volumes:
+      - /mnt/storage/appdata/radarr:/config
+      #    - movies:/movies
+      #    - complete_downloads:/downloads
+      - /mnt/storage/media/movies:/movies
+      - /mnt/storage/media/kids:/kids
+      - /mnt/storage/media/christmas:/christmas
+      - /mnt/storage/media/4kmovies:/4kmovies
+      - /mnt/storage/appdata/downloads/complete:/downloads
+      - shared:/shared
+    links:
+      - sabnzbd
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+        # vpn:
+      #   ipv4_address: 172.20.0.3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=radarr"
+      - "traefik.frontend.rule=Host:movies.${DOMAINNAME}"
+      - "traefik.port=7878"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+
+  ########################################
+  readarr:
+    image: hotio/readarr:nightly
+    container_name: readarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=002 #optional
+    volumes:
+      - /mnt/storage/appdata/readarr:/config
+      - /mnt/storage/appdata/downloads/complete:/downloads
+      - /mnt/storage/media/books/ebooks:/books
+    links:
+      - sabnzbd
+    ports:
+      - 8787:8787
+    restart: unless-stopped
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.19
+    # networks:
+    # - traefik_proxy
+    #   # vpn:
+    #   #   ipv4_address: 172.20.0.3
+    # labels:
+    # - "traefik.enable=true"
+    # - "traefik.backend=readarr"
+    # - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
+    # - "traefik.port=8787"
+    # - "traefik.docker.network=traefik_proxy"
+    # - "traefik.frontend.headers.SSLRedirect=true"
+    # - "traefik.frontend.headers.STSSeconds=315360000"
+    # - "traefik.frontend.headers.browserXSSFilter=true"
+    # - "traefik.frontend.headers.contentTypeNosniff=true"
+    # - "traefik.frontend.headers.forceSTSHeader=true"
+    # - "traefik.frontend.headers.SSLHost=delesio.com"
+    # - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    # - "traefik.frontend.headers.STSPreload=true"
+    # - "traefik.frontend.headers.frameDeny=false"
+
+  ubooquity:
+    image: ghcr.io/linuxserver/ubooquity
+    container_name: ubooquity
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      # - MAXMEM=<maxmem>
+    volumes:
+      - /mnt/storage/appdata/ubooquity:/config
+      # - /mnt/storage/appdata/downloads/complete:/downloads
+      - /mnt/storage/media/books/ebooks:/books
+        #
+        # - <path to data>:/config
+        # - <path to books>:/books
+        # - <path to comics>:/comics
+      # - <path to raw files>:/files
+    ports:
+      - 2202:2202
+      - 2203:2203
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+        # vpn:
+      #   ipv4_address: 172.20.0.3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=ubooquity"
+      - "traefik.frontend.rule=Host:opds.${DOMAINNAME}"
+      # ;AddPrefix:/ubooquity/opds-books"
+      - "traefik.port=2202"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+
+networks:
+  default:
+    driver: bridge
