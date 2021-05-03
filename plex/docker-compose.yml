@@ -41,9 +41,9 @@ services:
       - /mnt/storage/appdata/traefik:/etc/traefik
       - /mnt/storage/appdata/docker/shared:/shared
 
-  ########################################
-  #  #plex - media server
-  ########################################
+########################################
+#  #plex - media server
+########################################
   plex:
     image: linuxserver/plex
     container_name: plex
@@ -59,7 +59,7 @@ services:
       - /mnt/storage/media/music:/data/music
       - /mnt/storage/tmp:/transcode
       - /mnt/storage/appdata/docker/shared:/shared
-     network_mode: host
+    network_mode: host
 #    networks:
 #      priv_lan:
 #        ipv4_address: 10.0.0.12
