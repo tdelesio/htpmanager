@@ -1,3 +1,5 @@
+#!/bin/bash
+
 mkdir /mnt/storage/appdata/
 mkdir /mnt/storage/media/tv
 mkdir /mnt/storage/media/movies
