@@ -7,3 +7,6 @@ mkdir /mnt/storage/media/4kmovies
 mkdir /mnt/storage/tmp
 mkdir /mnt/storage/appdata/downloads/complete
 mkdir /mnt/storage/media/books/ebooks
+
+
+docker network create traefik_proxy
