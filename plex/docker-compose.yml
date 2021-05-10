@@ -194,7 +194,7 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=readarr"
       - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
-      - "traefik.port=8989"
+      - "traefik.port=8787"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
