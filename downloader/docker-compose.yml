@@ -64,7 +64,7 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=portainer"
       - "traefik.frontend.rule=Host:portatain.${DOMAINNAME}"
-      - "traefik.port=8989"
+      - "traefik.port=9000"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
@@ -159,7 +159,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.backend=sabnzbd"
-      - "traefik.frontend.rule=download:downloads.${DOMAINNAME}"
+      - "traefik.frontend.rule=Host:downloads.${DOMAINNAME}"
       - "traefik.port=8080"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
