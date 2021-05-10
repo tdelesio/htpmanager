@@ -167,9 +167,42 @@ I am creating this cause I recently built out a new server and it is more fresh 
 
 1. Create RAID volume
 1. Make Directory in the RAID volume for the data
+1. Find the drive
+```
+fdisk -l
+sudo blkid /dev/<drive>
+```
+1. Mount the directory.  Take the UUID from the previous step, and add it to the /etc/fstab file
+```
+UUID=xxx /mnt/storage ext4 defaults 0 0
+```
+1. Change the permissions to 777
+```
+sudo chmod 777 /mnt/storage
+```
 1. Mount Data source from network share: [Mounting Linux Share](https://www.ceos3c.com/open-source/mount-cifs-permission-denied-linux/#:~:text=error%20on%20Linux.-,Mount%20CIFS%20Permission%20Denied%20Error,smbcredentials%20file.)
+```
+10.0.0.20:/volume1/photos /mnt/nas/photos nfs defaults 0 2
+```
 1. Copy Existing data into new RAID volume
+```
+screen
+```
+CRT+a, then c
+```
+rsync -av /mnt/nas/<share> /mnt/storage/<share>
+```
 1. Assign static IP Address
 1. Modify Docker-Compore file to correct directories
+1. Create .env file in root of docker-compose
+```
+TZ="America/New_York"
+HTTP_USERNAME=
+HTTP_PASSWORD=
+DOMAINNAME=
+CLOUDFLARE_EMAIL=
+CLOUDFLARE_API_KEY=
+PLEX_CLAIM=
+```
 1. Start Docker-compose
 1. Test
