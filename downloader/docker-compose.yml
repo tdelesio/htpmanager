@@ -1,6 +1,45 @@
 version: "3.7"
 services:
 
+  traefik:
+    hostname: traefik
+    image: traefik:v1.7.16
+    container_name: traefik
+    restart: always
+    domainname: ${DOMAINNAME}
+    networks:
+      - default
+      - traefik_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8082:8080"
+    environment:
+      - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
+      - CF_API_KEY=${CLOUDFLARE_API_KEY}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=traefik"
+      - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"
+      #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /traefik"
+      - "traefik.port=8080"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
+      - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/sba/dockerdata/traefik:/etc/traefik
+  #      - /mnt/storage/appdata/docker/shared:/shared
 
 ########################################
   portainer:
@@ -20,8 +59,25 @@ services:
     - PUID=${PUID}
     - PGID=${PGID}
     networks:
-      priv_lan:
-        ipv4_address: 10.0.0.22
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=portainer"
+      - "traefik.frontend.rule=Host:portatain.${DOMAINNAME}"
+      - "traefik.port=8989"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.22
 
 ########################################
   watchtower:
@@ -52,8 +108,25 @@ services:
 #      - shared:/shared
       - /mnt/storage/appdata/netdata:/etc/netdata
     networks:
-      priv_lan:
-        ipv4_address: 10.0.0.23
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=netdata"
+      - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
+      - "traefik.port=19999"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.23
 
 
 
@@ -74,14 +147,30 @@ services:
       - 8080:8080
       - 9090:9090
     restart: always
-    networks:
-      priv_lan:
-        ipv4_address: 10.0.0.24
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.24
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=sabnzbd"
+      - "traefik.frontend.rule=download:portatain.${DOMAINNAME}"
+      - "traefik.port=8989"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
 ########################################
   nzbhydra2:
     image: linuxserver/nzbhydra2
@@ -90,16 +179,33 @@ services:
       - /mnt/storage/appdata/hydra/config:/config
       - /mnt/storage/appdata/downloads/complete:/downloads
 #      - shared:/shared
-    ports:
-      - 5076:5076
+#    ports:
+#      - 5076:5076
     restart: always
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
     networks:
-      priv_lan:
-        ipv4_address: 10.0.0.25
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=hydra2"
+      - "traefik.frontend.rule=Host:search.${DOMAINNAME}"
+      - "traefik.port=8989"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.25
 
 
 
