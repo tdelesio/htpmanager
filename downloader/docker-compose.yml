@@ -12,7 +12,7 @@ services:
     volumes:
     - /mnt/storage/appdata/portainer:/data
     - /var/run/docker.sock:/var/run/docker.sock
-    - shared:/shared
+#    - shared:/shared
     restart:
       always
     environment:
@@ -49,7 +49,7 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - shared:/shared
+#      - shared:/shared
       - /mnt/storage/appdata/netdata:/etc/netdata
     networks:
       priv_lan:

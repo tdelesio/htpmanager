@@ -161,3 +161,15 @@ Once you are happy with your docker-compose files, you can start the containers.
 docker-compose up -d
 docker-compose up -f pihole.yml -p pihole up -d
 ```
+
+## Build New
+I am creating this cause I recently built out a new server and it is more fresh on what was done.
+
+1. Create RAID volume
+1. Make Directory in the RAID volume for the data
+1. Mount Data source from network share: [Mounting Linux Share](https://www.ceos3c.com/open-source/mount-cifs-permission-denied-linux/#:~:text=error%20on%20Linux.-,Mount%20CIFS%20Permission%20Denied%20Error,smbcredentials%20file.)
+1. Copy Existing data into new RAID volume
+1. Assign static IP Address
+1. Modify Docker-Compore file to correct directories
+1. Start Docker-compose
+1. Test
