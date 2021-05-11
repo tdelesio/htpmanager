@@ -46,8 +46,8 @@ services:
     image: portainer/portainer-ce
     container_name: portainer
 #    command: --no-auth
-#    ports:
-#    - 9000:9000
+    ports:
+    - 9000:9000
     volumes:
     - /mnt/storage/appdata/portainer:/data
     - /var/run/docker.sock:/var/run/docker.sock
@@ -91,8 +91,8 @@ services:
 ########################################
   netdata:
     image: netdata/netdata
-#    ports:
-#      - 19999:19999
+    ports:
+      - 19999:19999
     environment:
     - PUID=${PUID}
     - PGID=${PGID}
@@ -179,8 +179,8 @@ services:
       - /mnt/storage/appdata/hydra/config:/config
       - /mnt/storage/appdata/downloads/complete:/downloads
 #      - shared:/shared
-#    ports:
-#      - 5076:5076
+    ports:
+      - 5076:5076
     restart: always
     environment:
       - PUID=${PUID}
