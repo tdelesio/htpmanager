@@ -88,22 +88,22 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --schedule "0 0 4 * * *" --cleanup
 
-  motioneye:
-    image: ccrisan/motioneye:master-amd64
-    container_name: motioneye
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/motioneye:/etc/motioneye
-      - /mnt/storage/appdata/motioneye:/var/lib/motioneye
-    #    network_mode: host
-    #    networks:
-    #      priv_lan:
-    #        ipv4_address: 10.0.0.50
-    restart: always
-    ports:
-      - 8765:8765
-      - 8081:8081
-      - 8082:8082
+#  motioneye:
+#    image: ccrisan/motioneye:master-amd64
+#    container_name: motioneye
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /etc/motioneye:/etc/motioneye
+#      - /mnt/storage/appdata/motioneye:/var/lib/motioneye
+#    #    network_mode: host
+#    #    networks:
+#    #      priv_lan:
+#    #        ipv4_address: 10.0.0.50
+#    restart: always
+#    ports:
+#      - 8765:8765
+#      - 8081:8081
+#      - 8082:8082
 
 ########################################
   netdata:
