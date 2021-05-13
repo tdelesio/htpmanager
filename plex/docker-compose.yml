@@ -40,20 +40,28 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/storage/dockerdata/traefik:/etc/traefik
 
-
-  homebridge:
-    image: oznu/homebridge:latest
-    container_name: homebridge
-    restart: always
-    network_mode: host
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - HOMEBRIDGE_CONFIG_UI=1
-      - HOMEBRIDGE_CONFIG_UI_PORT=8581
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:stable
     volumes:
-      - ./mnt/storage/dockerdata/:/homebridge
+      - /PATH_TO_YOUR_CONFIG:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    network_mode: host
+    
+#  homebridge:
+#    image: oznu/homebridge:latest
+#    container_name: homebridge
+#    restart: always
+#    network_mode: host
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#      - HOMEBRIDGE_CONFIG_UI=1
+#      - HOMEBRIDGE_CONFIG_UI_PORT=8581
+#    volumes:
+#      - ./mnt/storage/dockerdata/:/homebridge
 
   watchtower:
     container_name: watchtower
