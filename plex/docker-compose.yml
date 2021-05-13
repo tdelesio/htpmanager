@@ -53,7 +53,7 @@ services:
       - HOMEBRIDGE_CONFIG_UI=1
       - HOMEBRIDGE_CONFIG_UI_PORT=8581
     volumes:
-      - ./homebridge:/homebridge
+      - ./mnt/storage/dockerdata/:/homebridge
 
   watchtower:
     container_name: watchtower
