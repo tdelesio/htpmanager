@@ -1,4 +1,4 @@
-![Architecture](plex.png)
+![Architecture](images/plex.png)
 
 
 # Overview
@@ -71,7 +71,7 @@ This will eventually need to map back to your docker-compose file so that the co
 If you want to use a different path for your content, then you need to edit
 the docker-compose file and modify the volumes at the end of the file.  For NFS, you also have to set the permissions correct on the NAS.  
 
-![NAS NFS](/nas_nfs.png)
+![NAS NFS](/images/nas_nfs.png)
 
 ## Traefik Setup
 

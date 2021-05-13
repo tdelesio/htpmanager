@@ -16,6 +16,9 @@ services:
       - "80:80"
       - "443:443"
       - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/storage/dockerdata/traefikv2:/etc/traefik
     command:
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
@@ -64,9 +67,7 @@ services:
 #      - "traefik.frontend.headers.STSPreload=true"
 #      - "traefik.frontend.headers.frameDeny=true"
 #      - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /mnt/storage/dockerdata/traefikv2:/etc/traefik
+
 
 
   ########################################
