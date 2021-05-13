@@ -47,7 +47,10 @@ services:
       - /mnt/storage/dockerdata/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
-    network_mode: host
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.31
+#    network_mode: host
 
 #  homebridge:
 #    image: oznu/homebridge:latest
