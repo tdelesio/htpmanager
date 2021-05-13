@@ -40,17 +40,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/storage/dockerdata/traefik:/etc/traefik
 
-  homeassistant:
-    container_name: homeassistant
-    image: homeassistant/home-assistant:stable
-    volumes:
-      - /mnt/storage/dockerdata/homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
-    networks:
-      priv_lan:
-        ipv4_address: 10.0.0.31
-#    network_mode: host
 
 #  homebridge:
 #    image: oznu/homebridge:latest
@@ -65,6 +54,18 @@ services:
 #      - HOMEBRIDGE_CONFIG_UI_PORT=8581
 #    volumes:
 #      - ./mnt/storage/dockerdata/:/homebridge
+
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:stable
+    volumes:
+      - /mnt/storage/dockerdata/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.31
+#    network_mode: host
 
   watchtower:
     container_name: watchtower
@@ -269,3 +270,10 @@ networks:
       name: traefik_proxy
   default:
     driver: bridge
+  priv_lan:
+    driver: macvlan
+    driver_opts:
+      parent: enp6s0
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
