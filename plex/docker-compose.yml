@@ -44,11 +44,11 @@ services:
     container_name: homeassistant
     image: homeassistant/home-assistant:stable
     volumes:
-      - /PATH_TO_YOUR_CONFIG:/config
+      - /mnt/storage/dockerdata/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     network_mode: host
-    
+
 #  homebridge:
 #    image: oznu/homebridge:latest
 #    container_name: homebridge
