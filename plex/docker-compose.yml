@@ -41,6 +41,19 @@ services:
       - /mnt/storage/dockerdata/traefik:/etc/traefik
 
 
+  homebridge:
+    image: oznu/homebridge:latest
+    container_name: homebridge
+    restart: always
+    network_mode: host
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - HOMEBRIDGE_CONFIG_UI=1
+      - HOMEBRIDGE_CONFIG_UI_PORT=8581
+    volumes:
+      - ./homebridge:/homebridge
 
   watchtower:
     container_name: watchtower
