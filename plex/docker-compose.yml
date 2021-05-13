@@ -22,7 +22,7 @@ services:
       - --providers.docker
       - --api
       - --certificatesresolvers.leresolver.acme.email=tdelesio@gmail.com
-      - --certificatesresolvers.leresolver.acme.storage=/etc/traefix/acme/acme.json
+      - --certificatesresolvers.leresolver.acme.storage=/etc/traefik/acme/acme.json
       - --certificatesresolvers.leresolver.acme.tlschallenge=true
     environment:
       - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
@@ -79,6 +79,25 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --schedule "0 0 4 * * *" --cleanup
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    #    command: --no-auth
+    ports:
+      - 9000:9000
+    volumes:
+      - /mnt/storage/appdata/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    #    - shared:/shared
+    restart:
+      always
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+#    networks:
+#      - traefik_proxy
 
 ########################################
 #plex - media server
