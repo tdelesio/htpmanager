@@ -231,23 +231,23 @@ services:
 
 
 #https://mroach.com/2020/08/pi-hole-and-cloudflared-with-docker/
-  cloudflared:
-    container_name: cloudflared
-    restart: unless-stopped
-    image: cloudflare/cloudflared
-    command: proxy-dns
-    environment:
-      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
-      - "TUNNEL_METRICS=0.0.0.0:49312"
-      - "TUNNEL_DNS_ADDRESS=0.0.0.0"
-      - "TUNNEL_DNS_PORT=53"
-#    sysctls:
-#      - net.ipv4.ip_unprivileged_port_start=53
-    networks:
-      priv_lan:
-        ipv4_address: 10.0.0.2
-    ports:
-      - 53:53
+#  cloudflared:
+#    container_name: cloudflared
+#    restart: unless-stopped
+#    image: cloudflare/cloudflared
+#    command: proxy-dns
+#    environment:
+#      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
+#      - "TUNNEL_METRICS=0.0.0.0:49312"
+#      - "TUNNEL_DNS_ADDRESS=0.0.0.0"
+#      - "TUNNEL_DNS_PORT=53"
+##    sysctls:
+##      - net.ipv4.ip_unprivileged_port_start=53
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.2
+#    ports:
+#      - 53:53
 
 #  pihole:
 #    container_name: pihole
