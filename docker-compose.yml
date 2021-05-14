@@ -2,24 +2,32 @@ version: "3.7"
 services:
 
 
-########################################
-#plex - media server
-########################################
-  motioneye:
-    image: ccrisan/motioneye:master-amd64
-    container_name: motioneye
-    volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - /etc/motioneye:/etc/motioneye
-    - /var/lib/motioneye:/var/lib/motioneye
-#    network_mode: host
-#    networks:
-#      priv_lan:
-#        ipv4_address: 10.0.0.50
-    restart: always
-    ports:
-      - 8765:8765
-      - 8081:8081
-      - 8082:8082
+
+
+#networks:
+#  priv_lan:
+#    driver: macvlan
+#    driver_opts:
+#      parent: eth0
+#    ipam:
+#      config:
+#        - subnet: 10.0.0.0/16
+
+#  motioneye:
+#    image: ccrisan/motioneye:master-amd64
+#    container_name: motioneye
+#    volumes:
+#    - /etc/localtime:/etc/localtime:ro
+#    - /etc/motioneye:/etc/motioneye
+#    - /var/lib/motioneye:/var/lib/motioneye
+##    network_mode: host
+##    networks:
+##      priv_lan:
+##        ipv4_address: 10.0.0.50
+#    restart: always
+#    ports:
+#      - 8765:8765
+#      - 8081:8081
+#      - 8082:8082
 
 

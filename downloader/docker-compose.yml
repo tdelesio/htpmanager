@@ -79,6 +79,22 @@ services:
 #      priv_lan:
 #        ipv4_address: 10.0.0.22
 
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:stable
+    volumes:
+      - //Users/tim/Documents/dockerdata/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.50
+  #    network_mode: host
+  #    ports:
+  #      - 8123:8123
+  #    network_mode: host
+
+
 ########################################
   watchtower:
     container_name: watchtower
