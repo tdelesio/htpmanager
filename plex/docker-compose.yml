@@ -99,12 +99,20 @@ services:
     volumes:
       - /mnt/storage/dockerdata/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
+      - ssl:/config/ssl
     restart: unless-stopped
     network_mode: host
 #    networks:
 #      priv_lan:
 #        ipv4_address: 10.0.0.50
 
+  nginxproxyman:
+    container_name: nginxproxyman
+    image: jc21/nginx-proxy-manager
+    volumes:
+      - /mnt/storage/dockerdata/nginx_proxy_man/config/config.json:/app/config/production.json
+      - /mnt/storage/dockerdata//nginx_proxy_man/data:/data
+      - ssl:/etc/letsencrypt
 
 
   ########################################
@@ -248,6 +256,9 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
+
+volumes:
+  ssl:
 
 networks:
   traefik_proxy:
