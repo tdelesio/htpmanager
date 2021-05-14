@@ -267,52 +267,52 @@ services:
 #        ipv4_address: 10.65.2.4
 
 
-#  cloudflared:
-#    container_name: cloudflared
-#    # Restart on crashes and on reboots
-#    restart: unless-stopped
-#    image: cloudflare/cloudflared
-#    command: proxy-dns
-#    environment:
-#      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
-#
-#      # Listen on an unprivileged port
-#      - "TUNNEL_DNS_PORT=5053"
-#
-#      # Listen on all interfaces
-#      - "TUNNEL_DNS_ADDRESS=0.0.0.0"
-#
-#    # Attach cloudflared only to the private network
-#    networks:
-#      internal:
-#        ipv4_address: 172.30.9.2
+  cloudflared:
+    container_name: cloudflared
+    # Restart on crashes and on reboots
+    restart: unless-stopped
+    image: cloudflare/cloudflared
+    command: proxy-dns
+    environment:
+      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
 
-#  pihole:
-#    container_name: pihole
-#    restart: unless-stopped
-#    image: pihole/pihole
-#    environment:
-#      - "TZ=${TZ}"
-#      - "WEBPASSWORD=admin"
-#
-#      # Internal IP of the cloudflared container
-#      - "DNS1=172.30.9.2#5053"
-#
-#      # Explicitly disable a second DNS server, otherwise Pi-hole uses Google
-#      - "DNS2=no"
-#      - "DNSMASQ_LISTENING=all"
-#
-#    # Persist data and custom configuration to the host's storage
-#    volumes:
-#      - /mnt/storage/appdata/pihole/config:/etc/pihole/
-#      - /mnt/storage/appdata/pihole/dnsmasq:/etc/dnsmasq.d/
-#    networks:
-#      internal:
-#        ipv4_address: 172.30.9.3
-#      priv_lan:
-#        ipv4_address: 10.0.0.26
-#    depends_on:
-#      - cloudflared
+      # Listen on an unprivileged port
+      - "TUNNEL_DNS_PORT=5053"
+
+      # Listen on all interfaces
+      - "TUNNEL_DNS_ADDRESS=0.0.0.0"
+
+    # Attach cloudflared only to the private network
+    networks:
+      internal:
+        ipv4_address: 172.30.9.2
+
+  pihole:
+    container_name: pihole
+    restart: unless-stopped
+    image: pihole/pihole
+    environment:
+      - "TZ=${TZ}"
+      - "WEBPASSWORD=admin"
+
+      # Internal IP of the cloudflared container
+      - "DNS1=172.30.9.2#5053"
+
+      # Explicitly disable a second DNS server, otherwise Pi-hole uses Google
+      - "DNS2=no"
+      - "DNSMASQ_LISTENING=all"
+
+    # Persist data and custom configuration to the host's storage
+    volumes:
+      - /mnt/storage/appdata/pihole/config:/etc/pihole/
+      - /mnt/storage/appdata/pihole/dnsmasq:/etc/dnsmasq.d/
+    networks:
+      internal:
+        ipv4_address: 172.30.9.3
+      priv_lan:
+        ipv4_address: 10.0.0.2
+    depends_on:
+      - cloudflared
 
 networks:
   internal:
