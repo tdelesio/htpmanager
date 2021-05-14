@@ -67,8 +67,8 @@ services:
       - /mnt/storage/media/4kmovies:/data/4kmovies
       - /mnt/storage/tmp:/transcode
 #      - /mnt/storage/media/music:/data/music
-#      - /mnt/storage/[appdata/docker/shared:/shared
-    network_mode: host
+#      - /mnt/storage/[appdata/docker/s[hared:/shared
+#    network_mode: host
     networks:
       priv_lan:
         ipv4_address: 10.0.0.50
