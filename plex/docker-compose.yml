@@ -69,10 +69,10 @@ services:
 #      - /mnt/storage/media/music:/data/music
 #      - /mnt/storage/[appdata/docker/shared:/shared
     network_mode: host
-#    networks:
-#      priv_lan:
-#        ipv4_address: 10.0.0.50
-    restart: always
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.50
+#    restart: always
 #    ports:
 #      - 32400:32400/tcp
 #      - 3005:3005/tcp
@@ -88,7 +88,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - ADVERTISE_IP="http://10.0.0.10:32400/"
+      - ADVERTISE_IP="http://10.0.0.50:32400/"
       - HOSTNAME="Docker Plex"
       - PLEX_CLAIM=${PLEX_CLAIM}
       - ALLOWED_NETWORKS=10.0.0.0/8
@@ -100,10 +100,10 @@ services:
       - /mnt/storage/dockerdata/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
-#    network_mode: host
-    networks:
-      priv_lan:
-        ipv4_address: 10.0.0.50
+    network_mode: host
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.50
 
 
 
