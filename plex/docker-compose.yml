@@ -101,18 +101,36 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ssl:/config/ssl
     restart: unless-stopped
-    network_mode: host
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=homeassistant"
+      - "traefik.frontend.rule=Host:ha.${DOMAINNAME}"
+      - "traefik.port=8123"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+      
+#    network_mode: host
 #    networks:
 #      priv_lan:
 #        ipv4_address: 10.0.0.50
 
-  nginxproxyman:
-    container_name: nginxproxyman
-    image: jc21/nginx-proxy-manager
-    volumes:
-      - /mnt/storage/dockerdata/nginx_proxy_man/config/config.json:/app/config/production.json
-      - /mnt/storage/dockerdata//nginx_proxy_man/data:/data
-      - ssl:/etc/letsencrypt
+#  nginxproxyman:
+#    container_name: nginxproxyman
+#    image: jc21/nginx-proxy-manager
+#    volumes:
+#      - /mnt/storage/dockerdata/nginx_proxy_man/config/config.json:/app/config/production.json
+#      - /mnt/storage/dockerdata//nginx_proxy_man/data:/data
+#      - ssl:/etc/letsencrypt
 
 
   ########################################
