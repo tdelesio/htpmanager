@@ -78,22 +78,15 @@ services:
 #    networks:
 #      priv_lan:
 #        ipv4_address: 10.0.0.22
-
-  homeassistant:
-    container_name: homeassistant
-    image: homeassistant/home-assistant:stable
-    volumes:
-      - //Users/tim/Documents/dockerdata/homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
-    networks:
-      priv_lan:
-        ipv4_address: 10.0.0.50
   #    network_mode: host
   #    ports:
   #      - 8123:8123
   #    network_mode: host
-
+#client Id = 495410296789-h87na8lfgtdt2mmtl63ovs8t830dpp86.apps.googleusercontent.com
+#client secret = ybdEt5-jR6MY9oz_BcYdo2S2
+#pdevice access console project id = 9d040090-f362-4401-805b-d6e142c9fe4d
+#subscription name = projects/wilmington-home-automation/subscriptions/wilmington
+#topic name = projects/sdm-prod/topics/enterprise-9d040090-f362-4401-805b-d6e142c9fe4d
 
 ########################################
   watchtower:

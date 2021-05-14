@@ -67,7 +67,7 @@ services:
       - /mnt/storage/media/4kmovies:/data/4kmovies
       - /mnt/storage/tmp:/transcode
 #      - /mnt/storage/media/music:/data/music
-#      - /mnt/storage/appdata/docker/shared:/shared
+#      - /mnt/storage/[appdata/docker/shared:/shared
     network_mode: host
 #    networks:
 #      priv_lan:
@@ -92,6 +92,18 @@ services:
       - HOSTNAME="Docker Plex"
       - PLEX_CLAIM=${PLEX_CLAIM}
       - ALLOWED_NETWORKS=10.0.0.0/8
+
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:stable
+    volumes:
+      - /mnt/storage/dockerdata/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    network_mode: host
+    networks:
+      priv_lan:
+        ipv4_address: 10.0.0.50
 
 
 
