@@ -40,13 +40,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/storage/dockerdata/traefik:/etc/traefik
 
-  watchtower:
-    container_name: watchtower
-    restart: always
-    image: v2tec/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --schedule "0 0 4 * * *" --cleanup
+#  watchtower:
+#    container_name: watchtower
+#    restart: always
+#    image: v2tec/watchtower
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    command: --schedule "0 0 4 * * *" --cleanup
 #    networks:
 #      - traefik_proxy
 
@@ -118,7 +118,7 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
-      
+
 #    network_mode: host
 #    networks:
 #      priv_lan:
