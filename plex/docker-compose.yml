@@ -68,10 +68,10 @@ services:
       - /mnt/storage/tmp:/transcode
 #      - /mnt/storage/media/music:/data/music
 #      - /mnt/storage/[appdata/docker/s[hared:/shared
-#    network_mode: host
-    networks:
-      priv_lan:
-        ipv4_address: 10.0.0.50
+    network_mode: host
+#    networks:
+#      priv_lan:
+#        ipv4_address: 10.0.0.50
     restart: unless-stopped
     ports:
       - 32400:32400/tcp
