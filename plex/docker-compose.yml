@@ -40,15 +40,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/storage/dockerdata/traefik:/etc/traefik
 
-#  watchtower:
-#    container_name: watchtower
-#    restart: always
-#    image: v2tec/watchtower
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    command: --schedule "0 0 4 * * *" --cleanup
-#    networks:
-#      - traefik_proxy
 
 ########################################
 #plex - media server
@@ -58,18 +49,10 @@ services:
     container_name: plex
     volumes:
       - /mnt/storage/dockerdata/plex:/config
-      - /mnt/nas/home_movies:/data/home_movies
-      - /mnt/nas/photos:/data/photos
-      - /mnt/storage/media/tv:/data/tvshows
-      - /mnt/storage/media/movies:/data/movies
-      - /mnt/storage/media/christmas:/data/christmas
-      - /mnt/storage/media/kids:/data/kids
-      - /mnt/storage/media/4kmovies:/data/4kmovies
-      - /mnt/storage/tmp:/transcode
+      - /mnt/storage/media:/data/media
+      - /mnt/nas/media:/data/remote
+      - /tmp:/transcode
     network_mode: host
-#    networks:
-#      priv_lan:
-#        ipv4_address: 10.0.0.50
     restart: unless-stopped
 #    ports:
 #      - 32400:32400/tcp
@@ -117,12 +100,6 @@ services:
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
 
-#    network_mode: host
-#    networks:
-#      priv_lan:
-#        ipv4_address: 10.0.0.50
-
-
 
   ########################################
   #         Content Managers
@@ -134,8 +111,8 @@ services:
 #      - sabnzbd
     volumes:
       - /mnt/storage/dockerdata/sonarr:/config
-      - /mnt/storage/media/tv:/tv
-      - /mnt/nas/plex_server/downloads/complete:/downloads
+      - /mnt/storage/media/tv:/data/media/tv
+      - /mnt/nas/usenet:/data/usenet
     #    ports:
     #      - 8989:8989
     restart: always
@@ -172,11 +149,8 @@ services:
       - UMASK_SET=022 #optional
     volumes:
       - /mnt/storage/dockerdata/radarr:/config
-      - /mnt/storage/media/movies:/movies
-      - /mnt/storage/media/kids:/kids
-      - /mnt/storage/media/christmas:/christmas
-      - /mnt/storage/media/4kmovies:/4kmovies
-      - /mnt/nas/plex_server/downloads/complete:/downloads
+      - /mnt/storage/media/:/data/media/
+      - /mnt/nas/usenet:/data/usenet
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -209,8 +183,8 @@ services:
       - UMASK_SET=002 #optional
     volumes:
       - /mnt/storage/dockerdata/readarr:/config
-      - /mnt/nas/plex_server/downloads/complete:/downloads
-      - /mnt/storage/media/books/ebooks:/books
+      - /mnt/storage/media/books/ebooks:/data/media/books
+      - /mnt/nas/usenet:/data/usenet
     ports:
       - 8787:8787
     restart: unless-stopped
@@ -241,7 +215,7 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/storage/dockerdata/ubooquity:/config
-      - /mnt/storage/media/books/ebooks:/books
+      - /mnt/storage/media/books/ebooks:/data/media/books
     ports:
       - 2202:2202
       - 2203:2203
@@ -274,10 +248,10 @@ networks:
       name: traefik_proxy
   default:
     driver: bridge
-  priv_lan:
-    driver: macvlan
-    driver_opts:
-      parent: enp6s0
-    ipam:
-      config:
-        - subnet: 10.0.0.0/16
+#  priv_lan:
+#    driver: macvlan
+#    driver_opts:
+#      parent: enp6s0
+#    ipam:
+#      config:
+#        - subnet: 10.0.0.0/16
