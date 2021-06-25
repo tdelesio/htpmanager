@@ -66,8 +66,6 @@ services:
       - /mnt/storage/media/kids:/data/kids
       - /mnt/storage/media/4kmovies:/data/4kmovies
       - /mnt/storage/tmp:/transcode
-#      - /mnt/storage/media/music:/data/music
-#      - /mnt/storage/[appdata/docker/s[hared:/shared
     network_mode: host
 #    networks:
 #      priv_lan:
@@ -124,13 +122,6 @@ services:
 #      priv_lan:
 #        ipv4_address: 10.0.0.50
 
-#  nginxproxyman:
-#    container_name: nginxproxyman
-#    image: jc21/nginx-proxy-manager
-#    volumes:
-#      - /mnt/storage/dockerdata/nginx_proxy_man/config/config.json:/app/config/production.json
-#      - /mnt/storage/dockerdata//nginx_proxy_man/data:/data
-#      - ssl:/etc/letsencrypt
 
 
   ########################################
@@ -145,7 +136,6 @@ services:
       - /mnt/storage/dockerdata/sonarr:/config
       - /mnt/storage/media/tv:/tv
       - /mnt/nas/plex_server/downloads/complete:/downloads
-#      - /mnt/storage/appdata/downloads/complete:/downloads
     #    ports:
     #      - 8989:8989
     restart: always
