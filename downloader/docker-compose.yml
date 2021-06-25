@@ -30,8 +30,6 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-    networks:
-      - traefik_proxy
 #
 #  cloudflared:
 #    container_name: cloudflared
