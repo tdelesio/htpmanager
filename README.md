@@ -1,5 +1,5 @@
 ![Architecture](plex.png)
-
+![Data Map](network_mapping.png)
 
 # Overview
 
