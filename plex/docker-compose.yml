@@ -219,7 +219,7 @@ services:
     ports:
       - 8090:8090
     restart: unless-stopped
-        networks:
+    networks:
       - traefik_proxy
     labels:
       - "traefik.enable=true"
