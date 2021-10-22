@@ -215,7 +215,9 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/storage/dockerdata/ubooquity:/config
-      - /mnt/storage/media/books/ebooks:/data/media/books
+      - /mnt/storage/media/books/ebooks:/books
+      - /mnt/storage/media/books/comics:/comics
+#      - /mnt/storage/media/books/ebooks:/data/media/books
     ports:
       - 2202:2202
       - 2203:2203
