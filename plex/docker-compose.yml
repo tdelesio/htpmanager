@@ -213,7 +213,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - - /mnt/storage/dockerdata/mylar:/config
+      - /mnt/storage/dockerdata/mylar:/config
       - /mnt/storage/media/books/comics:/comics
       - /mnt/nas/usenet:/downloads
     ports:
