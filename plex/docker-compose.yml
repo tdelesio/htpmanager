@@ -184,6 +184,7 @@ services:
     volumes:
       - /mnt/storage/dockerdata/readarr:/config
       - /mnt/storage/media/books/ebooks:/data/media/books
+      - /mnt/storage/media/books/comics:/data/media/comics
       - /mnt/nas/usenet:/data/usenet
     ports:
       - 8787:8787
@@ -195,37 +196,6 @@ services:
       - "traefik.backend=readarr"
       - "traefik.frontend.rule=Host:books.${DOMAINNAME}"
       - "traefik.port=8787"
-      - "traefik.docker.network=traefik_proxy"
-      - "traefik.frontend.headers.SSLRedirect=true"
-      - "traefik.frontend.headers.STSSeconds=315360000"
-      - "traefik.frontend.headers.browserXSSFilter=true"
-      - "traefik.frontend.headers.contentTypeNosniff=true"
-      - "traefik.frontend.headers.forceSTSHeader=true"
-      - "traefik.frontend.headers.SSLHost=delesio.com"
-      - "traefik.frontend.headers.STSIncludeSubdomains=true"
-      - "traefik.frontend.headers.STSPreload=true"
-      - "traefik.frontend.headers.frameDeny=false"
-  
-  mylar3:
-    image: lscr.io/linuxserver/mylar3
-    container_name: mylar
-    environment:
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - /mnt/storage/dockerdata/mylar:/config
-      - /mnt/storage/media/books/comics:/comics
-      - /mnt/nas/usenet:/downloads
-    ports:
-      - 8090:8090
-    restart: unless-stopped
-    networks:
-      - traefik_proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.backend=mylar"
-      - "traefik.frontend.rule=Host:comics.${DOMAINNAME}"
-      - "traefik.port=8090"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
