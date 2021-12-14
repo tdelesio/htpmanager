@@ -55,7 +55,7 @@ services:
     network_mode: host
     restart: unless-stopped
 #    ports:
-#      - 32400:32400/tcp
+      - 32400:32400/tcp
 #      - 3005:3005/tcp
 #      - 8324:8324/tcp
 #      - 32469:32469/tcp
@@ -69,7 +69,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-#      - ADVERTISE_IP="http://10.0.0.50:32400/"
+      - ADVERTISE_IP="http://10.0.0.30:32400/"
 #      - HOSTNAME="Docker Plex"
 #      - PLEX_CLAIM=${PLEX_CLAIM}
 #      - ALLOWED_NETWORKS=10.0.0.0/8
