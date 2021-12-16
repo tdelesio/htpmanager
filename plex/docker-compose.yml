@@ -69,7 +69,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-#      - ADVERTISE_IP="http://10.0.0.50:32400/"
+      - ADVERTISE_IP="http://10.0.0.30:32400/"
 #      - HOSTNAME="Docker Plex"
 #      - PLEX_CLAIM=${PLEX_CLAIM}
 #      - ALLOWED_NETWORKS=10.0.0.0/8
@@ -213,6 +213,7 @@ services:
     volumes:
       - /mnt/storage/dockerdata/readarr:/config
       - /mnt/storage/media/books/ebooks:/data/media/books
+      - /mnt/storage/media/books/comics:/data/media/comics
       - /mnt/nas/usenet:/data/usenet
     ports:
       - 8787:8787
@@ -244,7 +245,8 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/storage/dockerdata/ubooquity:/config
-      - /mnt/storage/media/books/ebooks:/data/media/books
+      - /mnt/storage/media/books/ebooks:/books
+      - /mnt/storage/media/books/comics:/comics
     ports:
       - 2202:2202
       - 2203:2203
