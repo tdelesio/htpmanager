@@ -50,7 +50,7 @@ services:
     volumes:
       - /mnt/storage/dockerdata/plex:/config
       - /mnt/storage/media:/data/media
-      - /mnt/nas/media:/data/remote
+#      - /mnt/nas/media:/data/remote
       - /tmp:/transcode
     network_mode: host
     restart: unless-stopped
