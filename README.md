@@ -174,7 +174,7 @@ sudo blkid /dev/<drive>
 ```
 1. Mount the directory.  Take the UUID from the previous step, and add it to the /etc/fstab file
 ```
-UUID=xxx /mnt/storage ext4 defaults 0 0
+/dev/sda /mnt/storage ext4 defaults 0 0
 ```
 1. Change the permissions to 777
 ```
