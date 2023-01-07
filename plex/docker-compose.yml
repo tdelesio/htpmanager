@@ -284,7 +284,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.backend=overseerr"
-      - "traefik.frontend.rule=Host:overseerr.${DOMAINNAME}"
+      - "traefik.frontend.rule=Host:request.${DOMAINNAME}"
       - "traefik.port=5055"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
