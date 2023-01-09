@@ -219,8 +219,8 @@ services:
     networks:
       - traefik_proxy
     labels:
-      - "traefik.enable=whisparr"
-      - "traefik.backend=readarr"
+      - "traefik.enable=true"
+      - "traefik.backend=whisparr"
       - "traefik.frontend.rule=Host:adult.${DOMAINNAME}"
       - "traefik.port=6969"
       - "traefik.docker.network=traefik_proxy"
