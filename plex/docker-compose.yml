@@ -202,6 +202,40 @@ services:
       - "traefik.frontend.headers.frameDeny=false"
 
   ########################################
+  whisparr:
+    image: cr.hotio.dev/hotio/whisparr
+    container_name: whisparr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=002 #optional
+    volumes:
+      - /mnt/storage/dockerdata/whisparr/config:/config
+      - /mnt/storage/media/books/comics:/data/media/
+      - /mnt/nas/adult/Movies:/data/media
+    ports:
+      - 6969:6969
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=whisparr"
+      - "traefik.backend=readarr"
+      - "traefik.frontend.rule=Host:adult.${DOMAINNAME}"
+      - "traefik.port=6969"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+      
+  ########################################
   readarr:
     image: hotio/readarr:nightly
     container_name: readarr
