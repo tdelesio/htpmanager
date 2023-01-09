@@ -272,7 +272,7 @@ services:
 
   prowlarr: 
     image: cr.hotio.dev/hotio/prowlarr
-    continaer_name: prowlarr
+    container_name: prowlarr
     environment:
       - PUID=1000
       - PGID=1000
