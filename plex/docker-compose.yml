@@ -270,12 +270,41 @@ services:
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
 
+  prowlarr: 
+    image: cr.hotio.dev/hotio/prowlarr
+    continaer_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    ports:
+      - 9696:9696
+    volumes:
+      - /mnt/storage/dockerdata/prowlarr/config:/config
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=prowlarr"
+      - "traefik.frontend.rule=Host:indexer.${DOMAINNAME}"
+      - "traefik.port=9696"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+    
   overseerr:
     image: sctx/overseerr:latest
     container_name: overseerr
     environment:
-      - LOG_LEVEL=debug
-      - TZ=Asia/Tokyo
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
     ports:
       - 5055:5055
     volumes:
@@ -296,6 +325,7 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
+    
       
 volumes:
   ssl:
