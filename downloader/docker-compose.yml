@@ -17,19 +17,19 @@ services:
       - TZ=${TZ}
 
 
-  nzbhydra2:
-    image: linuxserver/nzbhydra2
-    container_name: nzbhydra2
-    volumes:
-      - /mnt/nas/dockerdata/hydra:/config
+#  nzbhydra2:
+#    image: linuxserver/nzbhydra2
+#   container_name: nzbhydra2
+#   volumes:
+#     - /mnt/nas/dockerdata/hydra:/config
 #      - /mnt/storage/appdata/downloads/complete:/downloads
-    ports:
-      - 5076:5076
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+#   ports:
+#     - 5076:5076
+#   restart: always
+#   environment:
+#     - PUID=${PUID}
+#     - PGID=${PGID}
+#    - TZ=${TZ}
 #
 #  cloudflared:
 #    container_name: cloudflared
