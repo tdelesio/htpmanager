@@ -212,7 +212,6 @@ services:
       - UMASK_SET=002 #optional
     volumes:
       - /mnt/storage/dockerdata/whisparr/config:/config
-      - /mnt/storage/media/books/comics:/data/media/
       - /mnt/nas/adult/Movies:/data/media
     ports:
       - 6969:6969
