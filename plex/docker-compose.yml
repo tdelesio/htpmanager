@@ -78,7 +78,7 @@ services:
     image: stashapp/stash:latest
     container_name: stash
     restart: unless-stopped
-   ports:
+    ports:
       - "9999:9999"
     ## If you intend to use stash's DLNA functionality uncomment the below network mode and comment out the above ports section
     # network_mode: host
