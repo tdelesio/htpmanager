@@ -73,6 +73,52 @@ services:
 #      - HOSTNAME="Docker Plex"
 #      - PLEX_CLAIM=${PLEX_CLAIM}
 #      - ALLOWED_NETWORKS=10.0.0.0/8
+
+  stash:
+    image: stashapp/stash:latest
+    container_name: stash
+    restart: unless-stopped
+   ports:
+      - "9999:9999"
+    ## If you intend to use stash's DLNA functionality uncomment the below network mode and comment out the above ports section
+    # network_mode: host
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "2m"
+    environment:
+      - STASH_STASH=/data/
+      - STASH_GENERATED=/generated/
+      - STASH_METADATA=/metadata/
+      - STASH_CACHE=/cache/
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=stash"
+      - "traefik.frontend.rule=Host:stash.${DOMAINNAME}"
+      - "traefik.port=9999"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+    volumes:
+      - /mnt/nas/adult/Movies:/data
+      - /mnt/storage/dockerdata/stash/config:/root/.stash
+      - /mnt/storage/dockerdata/stash/metadata:/metadata
+      - /mnt/storage/dockerdata/stash/cache:/cache
+      - /mnt/storage/dockerdata/stash/generated:/generated
+
   tautulli:
     image: ghcr.io/tautulli/tautulli
     container_name: tautulli
@@ -202,37 +248,37 @@ services:
       - "traefik.frontend.headers.frameDeny=false"
 
   ########################################
-  whisparr:
-    image: cr.hotio.dev/hotio/whisparr
-    container_name: whisparr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - UMASK_SET=002 #optional
-    volumes:
-      - /mnt/storage/dockerdata/whisparr/config:/config
-      - /mnt/nas/adult/Movies:/data/media
-    ports:
-      - 6969:6969
-    restart: unless-stopped
-    networks:
-      - traefik_proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.backend=whisparr"
-      - "traefik.frontend.rule=Host:adult.${DOMAINNAME}"
-      - "traefik.port=6969"
-      - "traefik.docker.network=traefik_proxy"
-      - "traefik.frontend.headers.SSLRedirect=true"
-      - "traefik.frontend.headers.STSSeconds=315360000"
-      - "traefik.frontend.headers.browserXSSFilter=true"
-      - "traefik.frontend.headers.contentTypeNosniff=true"
-      - "traefik.frontend.headers.forceSTSHeader=true"
-      - "traefik.frontend.headers.SSLHost=delesio.com"
-      - "traefik.frontend.headers.STSIncludeSubdomains=true"
-      - "traefik.frontend.headers.STSPreload=true"
-      - "traefik.frontend.headers.frameDeny=false"
+#  whisparr:
+#    image: cr.hotio.dev/hotio/whisparr
+#    container_name: whisparr
+#    environment:
+#     - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#      - UMASK_SET=002 #optional
+#    volumes:
+#      - /mnt/storage/dockerdata/whisparr/config:/config
+#      - /mnt/nas/adult/Movies:/data/media
+#    ports:
+#      - 6969:6969
+#    restart: unless-stopped
+#    networks:
+#      - traefik_proxy
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.backend=whisparr"
+#      - "traefik.frontend.rule=Host:adult.${DOMAINNAME}"
+#      - "traefik.port=6969"
+#      - "traefik.docker.network=traefik_proxy"
+#      - "traefik.frontend.headers.SSLRedirect=true"
+#      - "traefik.frontend.headers.STSSeconds=315360000"
+#      - "traefik.frontend.headers.browserXSSFilter=true"
+#      - "traefik.frontend.headers.contentTypeNosniff=true"
+#      - "traefik.frontend.headers.forceSTSHeader=true"
+#      - "traefik.frontend.headers.SSLHost=delesio.com"
+#      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+#      - "traefik.frontend.headers.STSPreload=true"
+#      - "traefik.frontend.headers.frameDeny=false"
       
   ########################################
   readarr:
