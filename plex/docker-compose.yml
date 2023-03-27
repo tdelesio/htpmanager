@@ -408,7 +408,7 @@ services:
   komga:
     image: gotson/komga
     container_name: komga
-        volumes:
+    volumes:
       - /mnt/storage/dockerdata/ubooquity:/config
       - /mnt/storage/media/books/comics:/data
     ports:
