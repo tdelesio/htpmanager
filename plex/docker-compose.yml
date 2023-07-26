@@ -44,6 +44,8 @@ services:
     image: linuxserver/sabnzbd
     container_name: sabnzbd
     restart: unless-stopped
+    networks:
+      - traefik_proxy
     volumes:
       - /mnt/storage/dockerdata/sabnzbd:/config
       - /mnt/storage/download:/data/usenet
