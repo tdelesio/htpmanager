@@ -24,7 +24,7 @@ services:
       - "traefik.backend=traefik"
       - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"
       #      - "traefik.frontend.rule=Host:${DOMAINNAME}; PathPrefixStrip: /traefik"
-      - "traefik.port=8080"
+      - "traefik.port=7070"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
@@ -48,8 +48,8 @@ services:
       - /mnt/storage/dockerdata/sabnzbd:/config
       - /mnt/storage/download:/data/usenet
     ports:
-      - 8080:8080
-      - 9090:9090
+      - 7070:8080
+      - 7171:9090
     restart: always
     labels:
       - "traefik.enable=true"
