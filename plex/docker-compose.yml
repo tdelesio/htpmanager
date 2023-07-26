@@ -47,7 +47,7 @@ services:
       - /mnt/storage/dockerdata/sabnzbd:/config
       - /mnt/storage/download:/data/usenet
     ports:
-      - 8080:8080
+      - 7070:8080
     restart: always
     environment:
       - PUID=${PUID}
