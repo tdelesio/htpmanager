@@ -46,8 +46,8 @@ services:
     volumes:
       - /mnt/storage/dockerdata/sabnzbd:/config
       - /mnt/storage/download:/data/usenet
-    #    ports:
-    #      - 8989:8989
+    ports:
+      - 8080:8080
     restart: always
     environment:
       - PUID=${PUID}
