@@ -217,7 +217,7 @@ services:
     volumes:
       - /mnt/storage/dockerdata/sonarr:/config
       - /mnt/storage/media/tv:/data/media/tv
-      - /mnt/nas/usenet:/data/usenet
+      - /mnt/storage/download:/data/usenet
     #    ports:
     #      - 8989:8989
     restart: always
@@ -255,7 +255,7 @@ services:
     volumes:
       - /mnt/storage/dockerdata/radarr:/config
       - /mnt/storage/media/:/data/media/
-      - /mnt/nas/usenet:/data/usenet
+      - /mnt/storage/download:/data/usenet
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -323,7 +323,7 @@ services:
       - /mnt/storage/dockerdata/readarr:/config
       - /mnt/storage/media/books/ebooks:/data/media/books
       - /mnt/storage/media/books/comics:/data/media/comics
-      - /mnt/nas/usenet:/data/usenet
+      - /mnt/storage/download:/data/usenet
     ports:
       - 8787:8787
     restart: unless-stopped
