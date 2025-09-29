@@ -104,50 +104,50 @@ services:
 #      - PLEX_CLAIM=${PLEX_CLAIM}
 #      - ALLOWED_NETWORKS=10.0.0.0/8
 
-  stash:
-    image: stashapp/stash:latest
-    container_name: stash
-    restart: unless-stopped
-    ports:
-      - "9999:9999"
-    ## If you intend to use stash's DLNA functionality uncomment the below network mode and comment out the above ports section
-    # network_mode: host
-    logging:
-      driver: "json-file"
-      options:
-        max-file: "10"
-        max-size: "2m"
-    environment:
-      - STASH_STASH=/data/
-      - STASH_GENERATED=/generated/
-      - STASH_METADATA=/metadata/
-      - STASH_CACHE=/cache/
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    networks:
-      - traefik_proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.backend=stash"
-      - "traefik.frontend.rule=Host:stash.${DOMAINNAME}"
-      - "traefik.port=9999"
-      - "traefik.docker.network=traefik_proxy"
-      - "traefik.frontend.headers.SSLRedirect=true"
-      - "traefik.frontend.headers.STSSeconds=315360000"
-      - "traefik.frontend.headers.browserXSSFilter=true"
-      - "traefik.frontend.headers.contentTypeNosniff=true"
-      - "traefik.frontend.headers.forceSTSHeader=true"
-      - "traefik.frontend.headers.SSLHost=delesio.com"
-      - "traefik.frontend.headers.STSIncludeSubdomains=true"
-      - "traefik.frontend.headers.STSPreload=true"
-      - "traefik.frontend.headers.frameDeny=false"
-    volumes:
-      - /mnt/nas/adult/Movies:/data
-      - /mnt/storage/dockerdata/stash/config:/root/.stash
-      - /mnt/storage/dockerdata/stash/metadata:/metadata
-      - /mnt/storage/dockerdata/stash/cache:/cache
-      - /mnt/storage/dockerdata/stash/generated:/generated
+  # stash:
+  #   image: stashapp/stash:latest
+  #   container_name: stash
+  #   restart: unless-stopped
+  #   ports:
+  #     - "9999:9999"
+  #   ## If you intend to use stash's DLNA functionality uncomment the below network mode and comment out the above ports section
+  #   # network_mode: host
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-file: "10"
+  #       max-size: "2m"
+  #   environment:
+  #     - STASH_STASH=/data/
+  #     - STASH_GENERATED=/generated/
+  #     - STASH_METADATA=/metadata/
+  #     - STASH_CACHE=/cache/
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #   networks:
+  #     - traefik_proxy
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.backend=stash"
+  #     - "traefik.frontend.rule=Host:stash.${DOMAINNAME}"
+  #     - "traefik.port=9999"
+  #     - "traefik.docker.network=traefik_proxy"
+  #     - "traefik.frontend.headers.SSLRedirect=true"
+  #     - "traefik.frontend.headers.STSSeconds=315360000"
+  #     - "traefik.frontend.headers.browserXSSFilter=true"
+  #     - "traefik.frontend.headers.contentTypeNosniff=true"
+  #     - "traefik.frontend.headers.forceSTSHeader=true"
+  #     - "traefik.frontend.headers.SSLHost=delesio.com"
+  #     - "traefik.frontend.headers.STSIncludeSubdomains=true"
+  #     - "traefik.frontend.headers.STSPreload=true"
+  #     - "traefik.frontend.headers.frameDeny=false"
+  #   volumes:
+  #     - /mnt/nas/adult/Movies:/data
+  #     - /mnt/storage/dockerdata/stash/config:/root/.stash
+  #     - /mnt/storage/dockerdata/stash/metadata:/metadata
+  #     - /mnt/storage/dockerdata/stash/cache:/cache
+  #     - /mnt/storage/dockerdata/stash/generated:/generated
 
   tautulli:
     image: ghcr.io/tautulli/tautulli
@@ -379,33 +379,33 @@ services:
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
 
-  # prowlarr: 
-  #   image: cr.hotio.dev/hotio/prowlarr
-  #   container_name: prowlarr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=${TZ}
-  #   ports:
-  #     - 9696:9696
-  #   volumes:
-  #     - /mnt/storage/dockerdata/prowlarr/config:/config
-  #   restart: unless-stopped
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.backend=prowlarr"
-  #     - "traefik.frontend.rule=Host:index.${DOMAINNAME}"
-  #     - "traefik.port=9696"
-  #     - "traefik.docker.network=traefik_proxy"
-  #     - "traefik.frontend.headers.SSLRedirect=true"
-  #     - "traefik.frontend.headers.STSSeconds=315360000"
-  #     - "traefik.frontend.headers.browserXSSFilter=true"
-  #     - "traefik.frontend.headers.contentTypeNosniff=true"
-  #     - "traefik.frontend.headers.forceSTSHeader=true"
-  #     - "traefik.frontend.headers.SSLHost=delesio.com"
-  #     - "traefik.frontend.headers.STSIncludeSubdomains=true"
-  #     - "traefik.frontend.headers.STSPreload=true"
-  #     - "traefik.frontend.headers.frameDeny=false"
+  prowlarr: 
+    image: cr.hotio.dev/hotio/prowlarr
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    ports:
+      - 9696:9696
+    volumes:
+      - /mnt/storage/dockerdata/prowlarr/config:/config
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=prowlarr"
+      - "traefik.frontend.rule=Host:index.${DOMAINNAME}"
+      - "traefik.port=9696"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=delesio.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
     
   overseerr:
     image: sctx/overseerr:latest
