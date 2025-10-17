@@ -91,7 +91,6 @@ services:
       - /mnt/storage/media/christmas:/data/christmas # Path to your TV shows
     ports:
       - 8096:8096 # HTTP port
-      - 8920:8920 # HTTPS port (optional)
       - 7359:7359/udp # For local network discovery
     restart: unless-stopped
     networks:
@@ -100,7 +99,7 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=jellyfin"
       - "traefik.frontend.rule=Host:jellyfin.${DOMAINNAME}"
-      - "traefik.port=8920"
+      - "traefik.port=8096"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
