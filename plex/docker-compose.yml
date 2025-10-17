@@ -72,6 +72,26 @@ services:
       - "traefik.frontend.headers.frameDeny=false"
       
 ########################################
+#jellyfin - media server
+########################################
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/storage/dockerdata/jellyfin/config:/config # Path to store Jellyfin configuration
+      - /mnt/storage/media/movies:/data/movies # Path to your movies
+      - /mnt/storage/media/tv:/data/tvshows # Path to your TV shows
+    ports:
+      - 8096:8096 # HTTP port
+      - 8920:8920 # HTTPS port (optional)
+      - 7359:7359/udp # For local network discovery
+    restart: unless-stopped
+
+########################################
 #plex - media server
 ########################################
   plex:
