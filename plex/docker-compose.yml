@@ -75,16 +75,20 @@ services:
 #jellyfin - media server
 ########################################
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
+    image: jellyfin/jellyfin
     container_name: jellyfin
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - JELLYFIN_PublishedServerUrl=http://example.com
     volumes:
       - /mnt/storage/dockerdata/jellyfin/config:/config # Path to store Jellyfin configuration
       - /mnt/storage/media/movies:/data/movies # Path to your movies
+      - /mnt/storage/media/kids:/data/kids # Path to your movies
+      - /mnt/storage/media/4kmovies:/data/4kmovies # Path to your movies
       - /mnt/storage/media/tv:/data/tvshows # Path to your TV shows
+      - /mnt/storage/media/christmas:/data/christmas # Path to your TV shows
     ports:
       - 8096:8096 # HTTP port
       - 8920:8920 # HTTPS port (optional)
